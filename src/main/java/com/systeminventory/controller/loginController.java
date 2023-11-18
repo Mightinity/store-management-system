@@ -5,9 +5,12 @@ import com.systeminventory.App;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.layout.AnchorPane;
+import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 
 public class loginController {
     @FXML
@@ -18,6 +21,12 @@ public class loginController {
     private Label labelEmailWarning;
     @FXML
     private Label labelPasswordWarning;
+    @FXML
+    private ImageView hideEye;
+    @FXML
+    private ImageView showEye;
+    @FXML
+    private TextField formPasswordShowField;
 
     @FXML
     private void onButtonLoginClick() throws IOException {
@@ -27,5 +36,25 @@ public class loginController {
         if (statusLogin){
             App.loadDashboardScene();
         }
+    }
+
+    @FXML
+    // SET PASSWORD TO PLAINTEXT
+    private void onHideEyeClick(MouseEvent mouseEvent) {
+        hideEye.setVisible(false);
+        showEye.setVisible(true);
+        formPasswordShowField.setText(formPasswordField.getText());
+        formPasswordField.setVisible(false);
+        formPasswordShowField.setVisible(true);
+
+    }
+
+    @FXML
+    private void onShowEyeClick(MouseEvent mouseEvent) {
+        showEye.setVisible(false);
+        hideEye.setVisible(true);
+        formPasswordField.setText(formPasswordShowField.getText());
+        formPasswordShowField.setVisible(false);
+        formPasswordField.setVisible(true);
     }
 }
