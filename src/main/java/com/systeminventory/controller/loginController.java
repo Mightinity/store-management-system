@@ -7,6 +7,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 
 import java.io.FileInputStream;
@@ -30,6 +32,17 @@ public class loginController {
     private TextField formPasswordShowField;
     @FXML
     private Button buttonLogin;
+
+    private void handleEnterKey(KeyEvent keyEvent) throws IOException {
+        if (keyEvent.getCode() == KeyCode.ENTER) {
+            labelEmailWarning.setText("");
+            labelPasswordWarning.setText("");
+            boolean statusLogin = loginFeatures.buttonLoginClick(formEmailField, formPasswordField, labelEmailWarning, labelPasswordWarning, formPasswordShowField, hideEye, showEye);
+            if (statusLogin) {
+                App.loadDashboardScene();
+            }
+        }
+    }
 
     @FXML
     private void onButtonLoginClick() throws IOException {
@@ -68,5 +81,20 @@ public class loginController {
     @FXML
     private void onButtonLoginMouseExit(MouseEvent mouseEvent) {
         buttonLogin.setStyle("-fx-background-color: #fe8a00;" + "-fx-background-radius: 23");
+    }
+
+    @FXML
+    private void onKeyPressLogin(KeyEvent keyEvent) throws IOException {
+        handleEnterKey(keyEvent);
+    }
+
+    @FXML
+    private void onKeyPressEmail(KeyEvent keyEvent) throws IOException {
+        handleEnterKey(keyEvent);
+    }
+
+    @FXML
+    private void onKeyPressPassword(KeyEvent keyEvent) throws IOException {
+        handleEnterKey(keyEvent);
     }
 }
