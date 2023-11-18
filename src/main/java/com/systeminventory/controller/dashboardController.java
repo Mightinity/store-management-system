@@ -94,4 +94,9 @@ public class dashboardController {
     private void onCashierProductMouseExit(MouseEvent mouseEvent) {
         buttonCashier.setStyle("-fx-background-color: #151d26;" + "-fx-border-color: #697b7b;" + "-fx-text-fill: #697b7b;" +  "-fx-background-radius: 20;" + "-fx-border-radius: 20;");
     }
+
+    @FXML
+    private void onProfileDropdownMouseExit(MouseEvent mouseEvent) {
+        profileDropdown.setVisible(false);
+    }
 }

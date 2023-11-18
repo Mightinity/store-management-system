@@ -58,7 +58,7 @@
                   <Image url="@../../assets/man.png" />
                </image>
             </ImageView>
-            <Pane fx:id="profileDropdown" layoutX="1154.0" layoutY="70.0" prefHeight="86.0" prefWidth="106.0" style="-fx-background-color: #1c242e; -fx-background-radius: 11;" visible="false">
+            <Pane fx:id="profileDropdown" layoutX="1154.0" layoutY="70.0" onMouseExited="#onProfileDropdownMouseExit" prefHeight="86.0" prefWidth="106.0" style="-fx-background-color: #1c242e; -fx-background-radius: 11;" visible="false">
                <children>
                   <Line endX="106.25" layoutX="-11.0" layoutY="23.0" startX="20.6666259765625" stroke="#f6f6f6" />
                   <Label layoutX="31.0" layoutY="5.0" text="Profiles" textFill="#f6f6f6">
