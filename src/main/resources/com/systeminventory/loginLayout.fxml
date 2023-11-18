@@ -50,6 +50,16 @@
                   <Image url="@../../../../../assets/logo-sims.png" />
                </image>
             </ImageView>
+            <Text fill="WHITE" layoutX="810.0" layoutY="355.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Email" wrappingWidth="57.77667236328125">
+               <font>
+                  <Font name="Righteous" size="22.0" />
+               </font>
+            </Text>
+            <Text fill="WHITE" layoutX="810.0" layoutY="455.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="147.1099853515625">
+               <font>
+                  <Font name="Righteous" size="22.0" />
+               </font>
+            </Text>
          </children>
       </Pane>
    </children>
