@@ -17,11 +17,11 @@ public class loginFeatures {
         String password = formPasswordField.getText().trim();
 
         if (email.isEmpty()) {
-            labelEmailWarning.setText("Please fill the email");
+            labelEmailWarning.setText("Please fill the email!");
         } else if (!isValidEmail(email)){
-            labelEmailWarning.setText("Invalid email format");
+            labelEmailWarning.setText("Invalid email format!");
         } else if (password.isEmpty()) {
-            labelPasswordWarning.setText(("Please fill the password"));
+            labelPasswordWarning.setText(("Please fill the password!"));
         } else {
             statusLogin = true;
         }

@@ -17,7 +17,12 @@
          <children>
             <Pane layoutX="774.72" layoutY="62.59" prefHeight="601.55" prefWidth="448.83" style="-fx-background-color: #2b3848; -fx-background-radius: 35;">
                <children>
-                  <Label fx:id="labelEmailWarning" layoutX="107.0" layoutY="275.0" textFill="RED">
+                  <Label fx:id="labelEmailWarning" layoutX="268.0" layoutY="275.0" prefHeight="19.0" prefWidth="147.0" textAlignment="RIGHT" textFill="RED">
+                     <font>
+                        <Font name="Righteous" size="15.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="labelPasswordWarning" layoutX="243.0" layoutY="375.0" prefHeight="19.0" prefWidth="172.0" textAlignment="RIGHT" textFill="RED">
                      <font>
                         <Font name="Righteous" size="15.0" />
                      </font>
@@ -48,11 +53,6 @@
                   <Font name="Righteous" size="22.0" />
                </font>
             </Text>
-            <Label fx:id="labelPasswordWarning" layoutX="932.0" layoutY="438.0" textFill="RED">
-               <font>
-                  <Font name="Righteous" size="15.0" />
-               </font>
-            </Label>
             <PasswordField fx:id="formPasswordField" layoutX="805.0" layoutY="460.0" prefHeight="59.35" prefWidth="391.28" promptText="**********" style="-fx-background-radius: 23; -fx-border-color: #67a9ff; -fx-border-radius: 23; -fx-border-width: 2.5;" />
             <TextField fx:id="formPasswordShowField" layoutX="805.0" layoutY="460.0" prefHeight="59.35" prefWidth="391.28" style="-fx-background-radius: 23; -fx-border-color: #67a9ff; -fx-border-radius: 23; -fx-border-width: 2,5;" visible="false">
                <font>
