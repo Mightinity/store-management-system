@@ -42,7 +42,6 @@ public class loginController {
     }
 
     @FXML
-    // SET PASSWORD TO PLAINTEXT
     private void onHideEyeClick(MouseEvent mouseEvent) {
         hideEye.setVisible(false);
         showEye.setVisible(true);
