@@ -3,6 +3,7 @@ package com.systeminventory.controller;
 import com.systeminventory.features.loginFeatures;
 import com.systeminventory.App;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
@@ -27,12 +28,14 @@ public class loginController {
     private ImageView showEye;
     @FXML
     private TextField formPasswordShowField;
+    @FXML
+    private Button buttonLogin;
 
     @FXML
     private void onButtonLoginClick() throws IOException {
         labelEmailWarning.setText("");
         labelPasswordWarning.setText("");
-        boolean statusLogin = loginFeatures.buttonLoginClick(formEmailField, formPasswordField, labelEmailWarning, labelPasswordWarning);
+        boolean statusLogin = loginFeatures.buttonLoginClick(formEmailField, formPasswordField, labelEmailWarning, labelPasswordWarning, formPasswordShowField, hideEye, showEye);
         if (statusLogin){
             App.loadDashboardScene();
         }
@@ -56,5 +59,15 @@ public class loginController {
         formPasswordField.setText(formPasswordShowField.getText());
         formPasswordShowField.setVisible(false);
         formPasswordField.setVisible(true);
+    }
+
+    @FXML
+    private void onButtonLoginMouseEnter(MouseEvent mouseEvent) {
+        buttonLogin.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 23");
+    }
+
+    @FXML
+    private void onButtonLoginMouseExit(MouseEvent mouseEvent) {
+        buttonLogin.setStyle("-fx-background-color: #fe8a00;" + "-fx-background-radius: 23");
     }
 }

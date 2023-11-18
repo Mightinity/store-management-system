@@ -27,7 +27,15 @@ public class App extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Login - Store Inventory System");
         primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.UTILITY);
+        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void loadLogoutScene() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("loginLayout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        primaryStage.setTitle("Login - Store Inventory System");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
