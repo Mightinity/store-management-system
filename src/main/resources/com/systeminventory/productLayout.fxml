@@ -13,7 +13,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systeminventory.controller.dashboardController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systeminventory.controller.productController">
    <children>
       <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #151d26;">
          <children>
@@ -25,7 +25,7 @@
                   <Insets bottom="-11.0" top="-11.0" />
                </padding>
             </Label>
-            <Button layoutX="346.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonDashboardClick" prefHeight="41.97" prefWidth="169.02" style="-fx-background-color: #151d26; -fx-background-radius: 20; -fx-border-color: #697b7b; -fx-border-radius: 20;" text="Dashboard" textFill="#697b7b">
+            <Button fx:id="buttonDashboard" layoutX="346.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonDashboardClick" onMouseEntered="#onButtonDashboardMouseEnter" onMouseExited="#onButtonDashboardMouseExit" prefHeight="41.97" prefWidth="169.02" style="-fx-background-color: #151d26; -fx-background-radius: 20; -fx-border-color: #697b7b; -fx-border-radius: 20;" text="Dashboard" textFill="#697b7b">
                <font>
                   <Font name="Righteous" size="18.0" />
                </font>
@@ -45,6 +45,59 @@
                   <Image url="@../../assets/man.png" />
                </image>
             </ImageView>
+            <Button alignment="CENTER" layoutX="20.0" layoutY="129.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Filter    " textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="14.0" fitWidth="16.0" layoutX="92.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon_filter.png" />
+               </image>
+            </ImageView>
+            <Button alignment="CENTER" layoutX="1140.0" layoutY="129.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="119.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Product +" textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Button>
+            <TextField layoutX="881.0" layoutY="129.0" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
+               <font>
+                  <Font name="Righteous" size="14.0" />
+               </font>
+            </TextField>
+            <Pane layoutX="833.0" layoutY="129.0" prefHeight="39.0" prefWidth="48.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20 0 0 20;" />
+            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="848.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon_search.png" />
+               </image>
+            </ImageView>
+            <ScrollPane fx:id="scrollPane" layoutX="106.0" layoutY="219.0" prefHeight="476.0" prefWidth="1065.0" style="-fx-background-color: #151d26;">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="1065.0" style="-fx-background-color: #151d26;">
+                     <padding>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                     </padding>
+                     <children>
+                        <Pane layoutX="40.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;">
+                           <children>
+                              <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../assets/example-product.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D height="150.0" width="150.0" />
+                                 </viewport>
+                              </ImageView>
+                           </children>
+                        </Pane>
+                        <Pane layoutX="238.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
+                        <Pane layoutX="436.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
+                        <Pane layoutX="634.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
+                        <Pane layoutX="832.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
+                     </children>
+                  </AnchorPane>
+              </content>
+            </ScrollPane>
             <Pane fx:id="profileDropdown" layoutX="1154.0" layoutY="70.0" onMouseExited="#onProfileDropdownMouseExit" prefHeight="86.0" prefWidth="106.0" style="-fx-background-color: #1c242e; -fx-background-radius: 11;" visible="false">
                <children>
                   <Line endX="106.25" layoutX="-11.0" layoutY="23.0" startX="20.6666259765625" stroke="#f6f6f6" />
@@ -71,32 +124,6 @@
                   </Button>
                </children>
             </Pane>
-            <Button alignment="CENTER" layoutX="20.0" layoutY="129.0" mnemonicParsing="false" onAction="#onButtonDashboardClick" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Filter    " textFill="#f6f6f6">
-               <font>
-                  <Font name="Righteous" size="18.0" />
-               </font>
-            </Button>
-            <ImageView fitHeight="14.0" fitWidth="16.0" layoutX="92.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../assets/icon_filter.png" />
-               </image>
-            </ImageView>
-            <Button alignment="CENTER" layoutX="1140.0" layoutY="129.0" mnemonicParsing="false" onAction="#onButtonDashboardClick" prefHeight="39.0" prefWidth="119.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Product +" textFill="#f6f6f6">
-               <font>
-                  <Font name="Righteous" size="18.0" />
-               </font>
-            </Button>
-            <TextField layoutX="881.0" layoutY="129.0" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
-               <font>
-                  <Font name="Righteous" size="14.0" />
-               </font>
-            </TextField>
-            <Pane layoutX="833.0" layoutY="129.0" prefHeight="39.0" prefWidth="48.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20 0 0 20;" />
-            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="848.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../../assets/icon_search.png" />
-               </image>
-            </ImageView>
             <Pane layoutX="21.0" layoutY="175.0" prefHeight="208.0" prefWidth="158.0" style="-fx-background-color: #2b3848; -fx-border-radius: 12; -fx-background-radius: 12;" visible="false">
                <children>
                   <Label layoutX="13.0" layoutY="18.0" text="Filters" textFill="#f6f6f6">
@@ -171,33 +198,6 @@
                   </Pane>
                </children>
             </Pane>
-            <ScrollPane layoutX="106.0" layoutY="219.0" prefHeight="476.0" prefWidth="1065.0" style="-fx-background-color: #151d26;">
-              <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="476.0" prefWidth="1065.0" style="-fx-background-color: #151d26;">
-                     <padding>
-                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                     </padding>
-                     <children>
-                        <Pane layoutX="40.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;">
-                           <children>
-                              <ImageView fitHeight="150.0" fitWidth="150.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../assets/example-product.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D height="150.0" width="150.0" />
-                                 </viewport>
-                              </ImageView>
-                           </children>
-                        </Pane>
-                        <Pane layoutX="238.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
-                        <Pane layoutX="436.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
-                        <Pane layoutX="634.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
-                        <Pane layoutX="832.0" prefHeight="276.0" prefWidth="179.0" style="-fx-border-color: #fe8a00; -fx-border-radius: 17;" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
          </children>
       </Pane>
    </children>
