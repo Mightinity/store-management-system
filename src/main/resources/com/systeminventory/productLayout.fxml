@@ -45,12 +45,12 @@
                   <Image url="@../../assets/man.png" />
                </image>
             </ImageView>
-            <Button alignment="CENTER" layoutX="20.0" layoutY="129.0" mnemonicParsing="false" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Filter    " textFill="#f6f6f6">
+            <Button fx:id="filterButton" alignment="CENTER" layoutX="20.0" layoutY="129.0" mnemonicParsing="false" onAction="#onFilterButtonClick" onMouseEntered="#onFilterButtonMouseEnter" onMouseExited="#onFilterButtonMouseExit" prefHeight="39.0" prefWidth="108.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Filter    " textFill="#f6f6f6">
                <font>
                   <Font name="Righteous" size="18.0" />
                </font>
             </Button>
-            <ImageView fitHeight="14.0" fitWidth="16.0" layoutX="92.0" layoutY="142.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fx:id="imageFIlter" fitHeight="14.0" fitWidth="16.0" layoutX="92.0" layoutY="142.0" onMouseEntered="#onImageFilterMouseEnter" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icon_filter.png" />
                </image>
@@ -124,7 +124,7 @@
                   </Button>
                </children>
             </Pane>
-            <Pane layoutX="21.0" layoutY="175.0" prefHeight="208.0" prefWidth="158.0" style="-fx-background-color: #2b3848; -fx-border-radius: 12; -fx-background-radius: 12;" visible="false">
+            <Pane fx:id="filterDropdown" layoutX="21.0" layoutY="175.0" onMouseExited="#onFilterDropdownMouseExit" prefHeight="208.0" prefWidth="158.0" style="-fx-background-color: #2b3848; -fx-border-radius: 12; -fx-background-radius: 12;" visible="false">
                <children>
                   <Label layoutX="13.0" layoutY="18.0" text="Filters" textFill="#f6f6f6">
                      <font>

@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 
@@ -12,6 +13,11 @@ import java.io.IOException;
 
 public class productController {
 
+    @FXML
+    public Pane filterDropdown;
+    @FXML
+    public Button filterButton;
+    public ImageView imageFIlter;
     @FXML
     private Pane profileDropdown;
 
@@ -117,5 +123,32 @@ public class productController {
     private void initialize() {
         scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
         scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
+    }
+
+    public void onFilterButtonClick(ActionEvent actionEvent) {
+        if (filterDropdown.isVisible()) {
+            filterDropdown.setVisible(false);
+        } else {
+            filterDropdown.setVisible(true);
+        }
+    }
+
+    @FXML
+    public void onFilterButtonMouseEnter(MouseEvent mouseEvent) {
+        filterButton.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 20;");
+    }
+
+    @FXML
+    public void onFilterButtonMouseExit(MouseEvent mouseEvent) {
+        filterButton.setStyle("-fx-background-color: #fe8a00;" + "-fx-background-radius: 20;");
+    }
+    @FXML
+    public void onImageFilterMouseEnter(MouseEvent mouseEvent) {
+        filterButton.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 20;");
+    }
+
+    @FXML
+    public void onFilterDropdownMouseExit(MouseEvent mouseEvent) {
+        filterDropdown.setVisible(false);
     }
 }
