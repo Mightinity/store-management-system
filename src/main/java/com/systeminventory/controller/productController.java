@@ -20,22 +20,24 @@ public class productController {
     public ImageView imageFIlter;
     @FXML
     private Pane profileDropdown;
-
     @FXML
     private Button settingsDropdown;
-
     @FXML
     private Button buttonCashier;
-
     @FXML
     private Button buttonProduct;
-
     @FXML
     private Button logoutDropdown;
     @FXML
     private Button buttonDashboard;
     @FXML
     private ScrollPane scrollPane;
+    @FXML
+    private Button buttonAddProduct;
+    @FXML
+    private Pane backgroundPopup;
+    @FXML
+    private Pane addProductPopup;
 
     @FXML
     void onButtonCashierClick(ActionEvent event) {
@@ -126,11 +128,7 @@ public class productController {
     }
 
     public void onFilterButtonClick(ActionEvent actionEvent) {
-        if (filterDropdown.isVisible()) {
-            filterDropdown.setVisible(false);
-        } else {
-            filterDropdown.setVisible(true);
-        }
+        filterDropdown.setVisible(!filterDropdown.isVisible());
     }
 
     @FXML
@@ -150,5 +148,26 @@ public class productController {
     @FXML
     public void onFilterDropdownMouseExit(MouseEvent mouseEvent) {
         filterDropdown.setVisible(false);
+    }
+
+    @FXML
+    private void onImageFilterMouseClick(MouseEvent mouseEvent) {
+        filterDropdown.setVisible(!filterDropdown.isVisible());
+    }
+
+    @FXML
+    private void onButtonAddProductMouseExit(MouseEvent mouseEvent) {
+        buttonAddProduct.setStyle("-fx-background-color: #fe8a00;" + "-fx-background-radius: 20;");
+    }
+
+    @FXML
+    private void onButtonAddProductMouseEnter(MouseEvent mouseEvent) {
+        buttonAddProduct.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 20;");
+    }
+
+    @FXML
+    private void onButtonAddProductClick(ActionEvent actionEvent) {
+        backgroundPopup.setVisible(true);
+        addProductPopup.setVisible(true);
     }
 }
