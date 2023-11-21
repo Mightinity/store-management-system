@@ -26,6 +26,8 @@ import javafx.stage.FileChooser;
 
 import java.io.*;
 import java.util.*;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class productController {
 
@@ -413,11 +415,17 @@ public class productController {
                     Product product = new Product();
                     product.setProductName(productData.get("Title").getAsString());
                     product.setImageSource(productData.get("Image").getAsString());
-                    product.setProductPrice(productData.get("SellingPrice").getAsString());
+                    String sellingPriceString = productData.get("SellingPrice").getAsString();
+                    int sellingPrice = Integer.parseInt(sellingPriceString);
+                    NumberFormat formatNumber = NumberFormat.getNumberInstance();
+                    String formattedSellingPrice = formatNumber.format(sellingPrice);
+                    product.setProductPrice(formattedSellingPrice);
                     product.setProductStock(productData.get("Stock").getAsString());
 
                     listProducts.add(product);
                 }
+
+
             } else {
                 System.err.println("Unable to find file productList.json");
             }
