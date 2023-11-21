@@ -41,7 +41,8 @@
             <PasswordField fx:id="formPasswordField" layoutX="805.0" layoutY="460.0" onKeyPressed="#onKeyPressPassword" prefHeight="59.35" prefWidth="391.28" promptText="************" style="-fx-background-radius: 23; -fx-border-color: #67a9ff; -fx-border-radius: 23; -fx-border-width: 2.5;">
                <font>
                   <Font name="Righteous" size="12.0" />
-               </font></PasswordField>
+               </font>
+            </PasswordField>
             <Button fx:id="buttonLogin" layoutX="805.0" layoutY="575.0" mnemonicParsing="false" onAction="#onButtonLoginClick" onKeyPressed="#onKeyPressLogin" onMouseEntered="#onButtonLoginMouseEnter" onMouseExited="#onButtonLoginMouseExit" prefHeight="59.35" prefWidth="391.28" style="-fx-background-color: #fe8a00; -fx-background-radius: 23;" text="Login" textFill="WHITE">
                <font>
                   <Font name="Righteous" size="22.0" />
@@ -59,7 +60,7 @@
             </Text>
             <TextField fx:id="formPasswordShowField" layoutX="805.0" layoutY="460.0" prefHeight="59.35" prefWidth="391.28" style="-fx-background-radius: 23; -fx-border-color: #67a9ff; -fx-border-radius: 23; -fx-border-width: 2,5;" visible="false">
                <font>
-                  <Font size="17.0" />
+                  <Font name="Righteous" size="17.0" />
                </font>
             </TextField>
             <ImageView fx:id="hideEye" fitHeight="33.0" fitWidth="29.0" layoutX="1154.0" layoutY="474.0" onMouseClicked="#onHideEyeClick" pickOnBounds="true" preserveRatio="true">
