@@ -422,6 +422,230 @@ public class productController {
         product.setProductStock("40");
         listProducts.add(product);
 
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
         return listProducts;
     }
 
