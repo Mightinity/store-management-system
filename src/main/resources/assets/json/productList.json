@@ -1,0 +1,44 @@
+{
+  "product1": {
+    "Title": "Product 1",
+    "OriginalPrice": 1000,
+    "SellingPrice": 1100,
+    "Stock": 20,
+    "Image": "/assets/logo-sims.png"
+  },
+  "product2": {
+    "Title": "Product 2",
+    "OriginalPrice": 1000,
+    "SellingPrice": 1100,
+    "Stock": 20,
+    "Image": "/assets/logo-sims.png"
+  },
+  "product3": {
+    "Title": "Product 3",
+    "OriginalPrice": 1000,
+    "SellingPrice": 1100,
+    "Stock": 20,
+    "Image": "/assets/logo-sims.png"
+  },
+  "product4": {
+    "Title": "Product 4",
+    "OriginalPrice": 1000,
+    "SellingPrice": 1100,
+    "Stock": 20,
+    "Image": "/assets/logo-sims.png"
+  },
+  "product6": {
+    "Title": "Product 6",
+    "OriginalPrice": 1000,
+    "SellingPrice": 1100,
+    "Stock": 20,
+    "Image": "/assets/logo-sims.png"
+  },
+  "product5": {
+    "Title": "Product 5",
+    "OriginalPrice": 1000,
+    "SellingPrice": 1100,
+    "Stock": 20,
+    "Image": "/assets/logo-sims.png"
+  }
+}

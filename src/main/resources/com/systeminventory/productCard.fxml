@@ -22,17 +22,17 @@
       </ImageView>
       <AnchorPane prefHeight="200.0" prefWidth="200.0">
          <children>
-            <Label fx:id="productCardTitle" layoutY="-3.0" prefHeight="23.0" prefWidth="160.0" text="Judul Product" textFill="#f6f6f6">
+            <Label fx:id="productCardTitle" layoutY="-1.0" prefHeight="23.0" prefWidth="160.0" text="Judul Product" textFill="#f6f6f6">
                <font>
                   <Font name="Righteous" size="18.0" />
                </font>
             </Label>
-            <Label layoutX="-1.0" layoutY="17.0" style="-fx-text-fill: #fe8a00;" text="Rp. " textFill="#fe8a00">
+            <Label layoutX="-1.0" layoutY="19.0" style="-fx-text-fill: #fe8a00;" text="Rp. " textFill="#fe8a00">
                <font>
                   <Font name="Righteous" size="15.0" />
                </font>
             </Label>
-            <Label fx:id="productCardPrice" layoutX="25.0" layoutY="17.0" style="-fx-text-fill: #fe8a00;" text="0" textFill="#fe8a00">
+            <Label fx:id="productCardPrice" layoutX="25.0" layoutY="19.0" style="-fx-text-fill: #fe8a00;" text="0" textFill="#fe8a00">
                <font>
                   <Font name="Righteous" size="15.0" />
                </font>

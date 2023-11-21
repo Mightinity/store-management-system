@@ -1,15 +1,17 @@
 package com.systeminventory.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
+
+
 import com.systeminventory.App;
 import com.systeminventory.model.Product;
-import com.systeminventory.controller.productCardContoller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -22,12 +24,8 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.ResourceBundle;
+import java.io.*;
+import java.util.*;
 
 public class productController {
 
@@ -241,31 +239,26 @@ public class productController {
             addProductProductNameLabel.setText("Product name: (Required)");
             addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
             status++;
-            System.out.println("DEBUG addProductProductNameField");
         }
         if (addProductOriginalPriceField.getText().isEmpty()){
             addProductOriginalPriceLabel.setText("Original price: (Required)");
             addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
             status++;
-            System.out.println("DEBUG addProductOriginalPriceField");
         }
         if (addProductSellingPriceField.getText().isEmpty()){
             addProductSellingPriceLabel.setText("Selling price: (Required)");
             addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
             status++;
-            System.out.println("DEBUG addProductSellingPriceField");
         }
         if (addProductProductImagePathLabel.getText().isEmpty()){
             addProductProductImageLabel.setText("Product image: (Required)");
             addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
             status++;
-            System.out.println("DEBUG addProductProductImagePathLabel");
         }
         if (addProductProductStockField.getText().isEmpty()){
             addProductProductStockLabel.setText("Product stock: (Required)");
             addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
             status++;
-            System.out.println("DEBUG addProductProductStockField");
         }
         if (status == 0){
             backgroundPopup.setVisible(false);
@@ -363,64 +356,36 @@ public class productController {
         });
     }
 
-    private List<Product> products() {
+    private List<Product> readProductsFromJson() {
         List<Product> listProducts = new ArrayList<>();
 
-        Product product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
+        Gson gson = new Gson();
 
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
+        try (InputStream inputStream = getClass().getResourceAsStream("/assets/json/productList.json")) {
+            if (inputStream != null) {
+                InputStreamReader reader = new InputStreamReader(inputStream);
+                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
+                List<String> productKeys = new ArrayList<>(jsonObject.keySet());
+                Collections.sort(productKeys);
 
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
+                for (String productName : productKeys) {
+                    JsonObject productData = jsonObject.getAsJsonObject(productName);
 
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
+                    Product product = new Product();
+                    product.setProductName(productData.get("Title").getAsString());
+                    product.setImageSource(productData.get("Image").getAsString());
+                    product.setProductPrice(productData.get("SellingPrice").getAsString());
+                    product.setProductStock(productData.get("Stock").getAsString());
 
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
+                    listProducts.add(product);
+                }
+            } else {
+                System.err.println("Unable to find file productList.json");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         return listProducts;
     }
@@ -431,7 +396,7 @@ public class productController {
         int column = 0;
         int row = 1;
 
-        listProducts = new ArrayList<>(products());
+        listProducts = new ArrayList<>(readProductsFromJson());
         for(Product product : listProducts){
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
