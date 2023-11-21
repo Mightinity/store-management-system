@@ -182,7 +182,7 @@
                </children>
             </Pane>
             <Pane fx:id="backgroundPopup" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000; -fx-opacity: 0.6;" visible="false" />
-            <Pane fx:id="addProductPopup" layoutX="390.0" layoutY="143.0" prefHeight="435.0" prefWidth="500.0" style="-fx-background-color: #2b3848; -fx-background-radius: 15;" visible="false">
+            <Pane fx:id="addProductPopup" layoutX="390.0" layoutY="143.0" prefHeight="435.0" prefWidth="500.0" style="-fx-background-color: #2b3848; -fx-background-radius: 15;">
                <children>
                   <Label layoutX="14.0" layoutY="6.0" text="Add Product" textFill="#fe8a00">
                      <font>
@@ -250,7 +250,7 @@
                         <Font name="Righteous" size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="addProductApplyButton" layoutX="415.0" layoutY="401.0" mnemonicParsing="false" onAction="#onAddProductApplyButtonClick" onMouseEntered="#onAddProductApplyButtonMouseEnter" onMouseExited="#onAddProductApplyButtonMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #00a6ff; -fx-background-radius: 13;" text="Apply" textFill="#f6f6f6">
+                  <Button fx:id="addProductApplyButton" layoutX="415.0" layoutY="401.0" mnemonicParsing="false" onAction="#onAddProductApplyButtonClick" onMouseEntered="#onAddProductApplyButtonMouseEnter" onMouseExited="#onAddProductApplyButtonMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #00a6ff; -fx-background-radius: 13;" text="Save" textFill="#f6f6f6">
                      <font>
                         <Font name="Righteous" size="13.0" />
                      </font>
