@@ -260,6 +260,11 @@
                         <Font name="Righteous" size="13.0" />
                      </font>
                   </Button>
+                  <Label fx:id="addProductProductImageGetFullPathLabel" layoutX="2.0" layoutY="222.0" prefHeight="21.0" prefWidth="31.0" textFill="#f6f6f6" visible="false">
+                     <font>
+                        <Font name="Righteous" size="16.0" />
+                     </font>
+                  </Label>
                </children>
             </Pane>
          </children>
