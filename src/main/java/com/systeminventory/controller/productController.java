@@ -207,20 +207,12 @@ public class productController {
         buttonAddProduct.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 20;");
     }
 
-    @FXML
-    private void onButtonAddProductClick(ActionEvent actionEvent) {
-        addProductProductNameField.setText("");
-        addProductOriginalPriceField.setText("");
-        addProductSellingPriceField.setText("");
-        addProductProductImagePathLabel.setText("");
-        addProductProductStockField.setText("");
-        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
-        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
-        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
-        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
-        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
-        backgroundPopup.setVisible(true);
-        addProductPopup.setVisible(true);
+    private static String findLastProductKey(List<Product> listProducts){
+        if(!listProducts.isEmpty()){
+            Product lastProduct = listProducts.get(listProducts.size() - 1);
+            return "product" + (listProducts.size());
+        }
+        return "product0";
     }
 
     private void setLabelPropertiesTextFillWhite(Label label, String text){
@@ -228,7 +220,7 @@ public class productController {
         label.setStyle("-fx-text-fill: #f6f6f6;");
     }
     @FXML
-    private void onAddProductApplyButtonClick(ActionEvent actionEvent) {
+    private void onAddProductApplyButtonClick(ActionEvent actionEvent) throws IOException {
         setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
         setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
         setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
@@ -261,13 +253,40 @@ public class productController {
             status++;
         }
         if (status == 0){
-            backgroundPopup.setVisible(false);
-            addProductPopup.setVisible(false);
-            System.out.println("Product name: " + addProductProductNameField.getText());
-            System.out.println("Original price: " + addProductOriginalPriceField.getText());
-            System.out.println("Selling price: " + addProductSellingPriceField.getText());
-            System.out.println("Product image: " + addProductProductImagePathLabel.getText());
-            System.out.println("Product stock: " + addProductProductStockField.getText());
+            Gson gson = new Gson();
+
+            String jsonPath = "./src/main/java/com/systeminventory/json/productList.json";
+
+            try (InputStream inputStream = new FileInputStream(jsonPath)){
+                InputStreamReader reader = new InputStreamReader(inputStream);
+                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+                List<String> productKeys = new ArrayList<>(jsonObject.keySet());
+                Collections.sort(productKeys);
+                int nextKeyNumber = productKeys.size()+1;
+                String newProductKey = "product"+nextKeyNumber;
+
+                JsonObject newProductData = new JsonObject();
+                int originalPrice = Integer.parseInt(addProductOriginalPriceField.getText());
+                int sellingPrice = Integer.parseInt(addProductSellingPriceField.getText());
+                int stock = Integer.parseInt(addProductProductStockField.getText());
+
+                newProductData.addProperty("Title", addProductProductNameField.getText());
+                newProductData.addProperty("OriginalPrice", originalPrice);
+                newProductData.addProperty("SellingPrice", sellingPrice);
+                newProductData.addProperty("Image", "/assets/logo-sims.png");
+                newProductData.addProperty("Stock", stock);
+
+                jsonObject.add(newProductKey, newProductData);
+
+                try (Writer writer = new FileWriter(jsonPath)){
+                    gson.toJson(jsonObject, writer);
+                }
+
+            } catch (IOException err){
+                err.printStackTrace();
+            }
+            App.loadProductScene();
         }
     }
 
@@ -356,18 +375,37 @@ public class productController {
         });
     }
 
+    @FXML
+    private void onButtonAddProductClick(ActionEvent actionEvent) throws IOException {
+        addProductProductNameField.setText("");
+        addProductOriginalPriceField.setText("");
+        addProductSellingPriceField.setText("");
+        addProductProductImagePathLabel.setText("");
+        addProductProductStockField.setText("");
+        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
+        backgroundPopup.setVisible(true);
+        addProductPopup.setVisible(true);
+    }
+
     private List<Product> readProductsFromJson() {
+        productCardContainer.getChildren().clear();
         List<Product> listProducts = new ArrayList<>();
 
         Gson gson = new Gson();
 
-        try (InputStream inputStream = getClass().getResourceAsStream("/assets/json/productList.json")) {
+        String jsonPath = "./src/main/java/com/systeminventory/json/productList.json";
+
+        try (InputStream inputStream = new FileInputStream(jsonPath)) {
             if (inputStream != null) {
                 InputStreamReader reader = new InputStreamReader(inputStream);
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
                 List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-                Collections.sort(productKeys);
+//                Collections.sort(productKeys);
 
                 for (String productName : productKeys) {
                     JsonObject productData = jsonObject.getAsJsonObject(productName);
@@ -386,236 +424,13 @@ public class productController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 1");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("10000");
-        product.setProductStock("10");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 2");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("20000");
-        product.setProductStock("20");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 3");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("30000");
-        product.setProductStock("30");
-        listProducts.add(product);
-
-        product = new Product();
-        product.setProductName("PRODUCT 4");
-        product.setImageSource("/assets/logo-sims.png");
-        product.setProductPrice("40000");
-        product.setProductStock("40");
-        listProducts.add(product);
-
         return listProducts;
     }
 
     @FXML
     public void initialize() throws IOException {
+
+        productCardContainer.getChildren().clear();
 
         int column = 0;
         int row = 1;
