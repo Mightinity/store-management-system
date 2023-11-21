@@ -1,14 +1,21 @@
 package com.systeminventory.controller;
 
 import com.systeminventory.App;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
+import javafx.stage.FileChooser;
 
+import java.io.File;
 import java.io.IOException;
 
 public class productController {
@@ -38,6 +45,32 @@ public class productController {
     private Pane backgroundPopup;
     @FXML
     private Pane addProductPopup;
+    @FXML
+    private Button addProductApplyButton;
+    @FXML
+    private Button addProductCancelButton;
+    @FXML
+    private TextField addProductProductNameField;
+    @FXML
+    private TextField addProductOriginalPriceField;
+    @FXML
+    private TextField addProductSellingPriceField;
+    @FXML
+    private TextField addProductProductStockField;
+    @FXML
+    private Label addProductProductImagePathLabel;
+    @FXML
+    private Pane addProductChooseFilePane;
+    @FXML
+    private Label addProductProductImageLabel;
+    @FXML
+    private Label addProductSellingPriceLabel;
+    @FXML
+    private Label addProductOriginalPriceLabel;
+    @FXML
+    private Label addProductProductNameLabel;
+    @FXML
+    private Label addProductProductStockLabel;
 
     @FXML
     void onButtonCashierClick(ActionEvent event) {
@@ -167,7 +200,156 @@ public class productController {
 
     @FXML
     private void onButtonAddProductClick(ActionEvent actionEvent) {
+        addProductProductNameField.setText("");
+        addProductOriginalPriceField.setText("");
+        addProductSellingPriceField.setText("");
+        addProductProductImagePathLabel.setText("");
+        addProductProductStockField.setText("");
+        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
         backgroundPopup.setVisible(true);
         addProductPopup.setVisible(true);
     }
+
+    private void setLabelPropertiesTextFillWhite(Label label, String text){
+        label.setText(text);
+        label.setStyle("-fx-text-fill: #f6f6f6;");
+    }
+    @FXML
+    private void onAddProductApplyButtonClick(ActionEvent actionEvent) {
+        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
+        int status = 0;
+        if (addProductProductNameField.getText().isEmpty()){
+            addProductProductNameLabel.setText("Product name: (Required)");
+            addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
+            status++;
+            System.out.println("DEBUG addProductProductNameField");
+        }
+        if (addProductOriginalPriceField.getText().isEmpty()){
+            addProductOriginalPriceLabel.setText("Original price: (Required)");
+            addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
+            status++;
+            System.out.println("DEBUG addProductOriginalPriceField");
+        }
+        if (addProductSellingPriceField.getText().isEmpty()){
+            addProductSellingPriceLabel.setText("Selling price: (Required)");
+            addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
+            status++;
+            System.out.println("DEBUG addProductSellingPriceField");
+        }
+        if (addProductProductImagePathLabel.getText().isEmpty()){
+            addProductProductImageLabel.setText("Product image: (Required)");
+            addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
+            status++;
+            System.out.println("DEBUG addProductProductImagePathLabel");
+        }
+        if (addProductProductStockField.getText().isEmpty()){
+            addProductProductStockLabel.setText("Product stock: (Required)");
+            addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
+            status++;
+            System.out.println("DEBUG addProductProductStockField");
+        }
+        if (status == 0){
+            backgroundPopup.setVisible(false);
+            addProductPopup.setVisible(false);
+            System.out.println("Product name: " + addProductProductNameField.getText());
+            System.out.println("Original price: " + addProductOriginalPriceField.getText());
+            System.out.println("Selling price: " + addProductSellingPriceField.getText());
+            System.out.println("Product image: " + addProductProductImagePathLabel.getText());
+            System.out.println("Product stock: " + addProductProductStockField.getText());
+        }
+    }
+
+    @FXML
+    private void onAddProductCancelButtonClick(ActionEvent actionEvent) {
+        backgroundPopup.setVisible(false);
+        addProductPopup.setVisible(false);
+    }
+
+    @FXML
+    private void onAddProductApplyButtonMouseEnter(MouseEvent mouseEvent) {
+        addProductApplyButton.setStyle("-fx-background-color: #33b8ff;" + "-fx-background-radius: 13");
+    }
+
+    @FXML
+    private void onAddProductApplyButtonMouseExit(MouseEvent mouseEvent) {
+        addProductApplyButton.setStyle("-fx-background-color: #00a6ff;" + "-fx-background-radius: 13");
+    }
+
+    @FXML
+    private void onAddProductCancelButtonMouseEnter(MouseEvent mouseEvent) {
+        addProductCancelButton.setStyle("-fx-background-color: #e0005c;" + "-fx-background-radius: 13");
+    }
+
+    @FXML
+    private void onAddProductCancelButtonMouseExit(MouseEvent mouseEvent) {
+        addProductCancelButton.setStyle("-fx-background-color: #ff1474;" + "-fx-background-radius: 13");
+    }
+
+
+    @FXML
+    private void onAddProductChooseFilePaneMouseEnter(MouseEvent mouseEvent) {
+        addProductChooseFilePane.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 5;" + "-fx-border-color: #f6f6f6;" + "-fx-border-radius: 5;");
+    }
+
+    @FXML
+    private void onAddProductChooseFilePaneMouseExit(MouseEvent mouseEvent) {
+        addProductChooseFilePane.setStyle("-fx-background-color: #fe8a00;" + "-fx-background-radius: 5;" + "-fx-border-color: #f6f6f6;" + "-fx-border-radius: 5;");
+    }
+
+    @FXML
+    private void onAddProductChooseFilePaneMouseClick(MouseEvent mouseEvent) {
+        FileChooser filechooser = new FileChooser();
+        filechooser.setTitle("Select product image");
+        filechooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("PNG Files", "*.png"));
+        File selectedFile = filechooser.showOpenDialog(App.getPrimaryStage());
+        if(selectedFile != null){
+            setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+            addProductProductImagePathLabel.setText(selectedFile.getName());
+        }
+    }
+
+    @FXML
+    private void onAddProductOriginalPriceKeyTyped(KeyEvent keyEvent) {
+        addProductOriginalPriceField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.matches("\\d*")){
+                    addProductOriginalPriceField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void onAddProductSellingPriceKeyTyped(KeyEvent keyEvent) {
+        addProductSellingPriceField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.matches("\\d*")){
+                    addProductSellingPriceField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+
+    @FXML
+    private void onAddProductProductStockKeyTyped(KeyEvent keyEvent) {
+        addProductProductStockField.textProperty().addListener(new ChangeListener<String>() {
+            @Override
+            public void changed(ObservableValue<? extends String> observableValue, String oldValue, String newValue) {
+                if(!newValue.matches("\\d*")){
+                    addProductProductStockField.setText(newValue.replaceAll("[^\\d]", ""));
+                }
+            }
+        });
+    }
+
 }

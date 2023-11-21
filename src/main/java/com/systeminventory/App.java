@@ -22,6 +22,10 @@ public class App extends Application {
 
     }
 
+    public static Stage getPrimaryStage(){
+        return primaryStage;
+    }
+
     public static void loadLoginScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("loginLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
