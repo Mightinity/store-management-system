@@ -3,7 +3,6 @@ package com.systeminventory.controller;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
-
 import com.systeminventory.App;
 import com.systeminventory.model.Product;
 import javafx.beans.value.ChangeListener;
@@ -25,9 +24,11 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.*;
-import java.text.NumberFormat;
-import java.util.Locale;
 
 public class productController {
 
@@ -83,10 +84,10 @@ public class productController {
     @FXML
     private Label addProductProductStockLabel;
 
-    private List<Product> listProducts;
-
     @FXML
     private GridPane productCardContainer;
+    @FXML
+    private Label addProductProductImageGetFullPathLabel;
 
     @FXML
     void onButtonCashierClick(ActionEvent event) {
@@ -256,8 +257,10 @@ public class productController {
         }
         if (status == 0){
             Gson gson = new Gson();
+            Random random = new Random();
 
-            String jsonPath = "./src/main/java/com/systeminventory/json/productList.json";
+            String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
+            String imageProductPath = "./src/main/java/com/systeminventory/assets/imagesProduct/";
 
             try (InputStream inputStream = new FileInputStream(jsonPath)){
                 InputStreamReader reader = new InputStreamReader(inputStream);
@@ -273,11 +276,22 @@ public class productController {
                 int sellingPrice = Integer.parseInt(addProductSellingPriceField.getText());
                 int stock = Integer.parseInt(addProductProductStockField.getText());
 
+                String imageFileName = addProductProductImagePathLabel.getText();
+                Path sourceImagePath = Paths.get(addProductProductImageGetFullPathLabel.getText());
+                Path targetImagePath = Paths.get(imageProductPath, imageFileName);
+
+                newProductData.addProperty("idProduct", generateIdProduct(random));
                 newProductData.addProperty("Title", addProductProductNameField.getText());
                 newProductData.addProperty("OriginalPrice", originalPrice);
                 newProductData.addProperty("SellingPrice", sellingPrice);
-                newProductData.addProperty("Image", "/assets/logo-sims.png");
+                newProductData.addProperty("Image", imageProductPath+imageFileName);
                 newProductData.addProperty("Stock", stock);
+
+                try{
+                    Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException err){
+                    err.printStackTrace();
+                }
 
                 jsonObject.add(newProductKey, newProductData);
 
@@ -290,6 +304,21 @@ public class productController {
             }
             App.loadProductScene();
         }
+    }
+
+    private static String generateIdProduct(Random random){
+        StringBuilder randomString = new StringBuilder();
+        for (int i = 0; i < 12; i++){
+            char randomCharacter = randomCharacter(random);
+            randomString.append(randomCharacter);
+        }
+        return randomString.toString();
+    }
+
+    private static char randomCharacter(Random random){
+        String characters = "ABDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        int index = random.nextInt(characters.length());
+        return characters.charAt(index);
     }
 
     @FXML
@@ -338,6 +367,7 @@ public class productController {
         if(selectedFile != null){
             setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
             addProductProductImagePathLabel.setText(selectedFile.getName());
+            addProductProductImageGetFullPathLabel.setText(selectedFile.getPath());
         }
     }
 
@@ -399,35 +429,25 @@ public class productController {
 
         Gson gson = new Gson();
 
-        String jsonPath = "./src/main/java/com/systeminventory/json/productList.json";
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
 
         try (InputStream inputStream = new FileInputStream(jsonPath)) {
-            if (inputStream != null) {
-                InputStreamReader reader = new InputStreamReader(inputStream);
-                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-                List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-//                Collections.sort(productKeys);
+            List<String> productKeys = new ArrayList<>(jsonObject.keySet());
+            //Collections.sort(productKeys);
 
-                for (String productName : productKeys) {
-                    JsonObject productData = jsonObject.getAsJsonObject(productName);
+            for (String productName : productKeys) {
+                JsonObject productData = jsonObject.getAsJsonObject(productName);
 
-                    Product product = new Product();
-                    product.setProductName(productData.get("Title").getAsString());
-                    product.setImageSource(productData.get("Image").getAsString());
-                    String sellingPriceString = productData.get("SellingPrice").getAsString();
-                    int sellingPrice = Integer.parseInt(sellingPriceString);
-                    NumberFormat formatNumber = NumberFormat.getNumberInstance();
-                    String formattedSellingPrice = formatNumber.format(sellingPrice);
-                    product.setProductPrice(formattedSellingPrice);
-                    product.setProductStock(productData.get("Stock").getAsString());
+                Product product = new Product();
+                product.setProductName(productData.get("Title").getAsString());
+                product.setImageSource(productData.get("Image").getAsString());
+                product.setProductPrice(productData.get("SellingPrice").getAsString());
+                product.setProductStock(productData.get("Stock").getAsString());
 
-                    listProducts.add(product);
-                }
-
-
-            } else {
-                System.err.println("Unable to find file productList.json");
+                listProducts.add(product);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -443,7 +463,7 @@ public class productController {
         int column = 0;
         int row = 1;
 
-        listProducts = new ArrayList<>(readProductsFromJson());
+        List<Product> listProducts = new ArrayList<>(readProductsFromJson());
         for(Product product : listProducts){
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));

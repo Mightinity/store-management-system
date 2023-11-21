@@ -6,6 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -25,10 +26,22 @@ public class productCardContoller {
     private Label productCardStock;
 
     public void setData(Product product){
-        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(product.getImageSource())));
-        productCardImage.setImage(image);
+//        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(product.getImageSource())));
+//        productCardImage.setImage(image);
+//        productCardTitle.setText(product.getProductName());
+//        productCardPrice.setText(product.getProductPrice());
+//        productCardStock.setText(product.getProductStock());
+
+        String imagePath = product.getImageSource();
+        File file = new File(imagePath);
+
+        if(file.exists()){
+            Image image = new Image(file.toURI().toString());
+            productCardImage.setImage(image);
+        }
         productCardTitle.setText(product.getProductName());
         productCardPrice.setText(product.getProductPrice());
         productCardStock.setText(product.getProductStock());
+
     }
 }
