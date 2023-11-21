@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systeminventory.controller.productController">
+   <children>
+      <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #151d26;">
+         <children>
+            <Label layoutX="20.0" layoutY="20.0" text="SIMS" textFill="#fe8a00">
+               <font>
+                  <Font name="Righteous" size="40.0" />
+               </font>
+               <padding>
+                  <Insets bottom="-11.0" top="-11.0" />
+               </padding>
+            </Label>
+            <Button fx:id="buttonDashboard" layoutX="346.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonDashboardClick" onMouseEntered="#onButtonDashboardMouseEnter" onMouseExited="#onButtonDashboardMouseExit" prefHeight="41.97" prefWidth="169.02" style="-fx-background-color: #151d26; -fx-background-radius: 20; -fx-border-color: #697b7b; -fx-border-radius: 20;" text="Dashboard" textFill="#697b7b">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonProduct" layoutX="554.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonProductClick" onMouseEntered="#onButtonProductMouseEnter" onMouseExited="#onButtonProductMouseExit" prefHeight="41.97" prefWidth="169.02" style="-fx-background-color: #151d26; -fx-border-color: #697b7b; -fx-background-radius: 20; -fx-border-radius: 20;" text="Product" textFill="#697b7b">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Button>
+            <Button fx:id="buttonCashier" layoutX="764.0" layoutY="14.0" mnemonicParsing="false" onAction="#onButtonCashierClick" onMouseEntered="#onCashierProductMouseEnter" onMouseExited="#onCashierProductMouseExit" prefHeight="41.97" prefWidth="169.02" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Cashier" textFill="#151d26">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Button>
+            <ImageView fitHeight="43.0" fitWidth="43.0" layoutX="1217.0" layoutY="20.0" onMouseClicked="#onProfileClick" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/man.png" />
+               </image>
+            </ImageView>
+            <Button fx:id="buttonAddProduct" alignment="CENTER" layoutX="1140.0" layoutY="129.0" mnemonicParsing="false" onAction="#onButtonAddProductClick" onMouseEntered="#onButtonAddProductMouseEnter" onMouseExited="#onButtonAddProductMouseExit" prefHeight="39.0" prefWidth="119.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20;" text="Profile +" textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Button>
+            <TextField layoutX="68.0" layoutY="129.0" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
+               <font>
+                  <Font name="Righteous" size="14.0" />
+               </font>
+            </TextField>
+            <Pane layoutX="20.0" layoutY="129.0" prefHeight="39.0" prefWidth="48.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 20 0 0 20;" />
+            <ImageView fitHeight="23.0" fitWidth="23.0" layoutX="35.0" layoutY="137.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon_search.png" />
+               </image>
+            </ImageView>
+            <Pane fx:id="profileDropdown" layoutX="1154.0" layoutY="70.0" onMouseExited="#onProfileDropdownMouseExit" prefHeight="86.0" prefWidth="106.0" style="-fx-background-color: #1c242e; -fx-background-radius: 11;" visible="false">
+               <children>
+                  <Line endX="106.25" layoutX="-11.0" layoutY="23.0" startX="20.6666259765625" stroke="#f6f6f6" />
+                  <Label layoutX="31.0" layoutY="5.0" text="Profiles" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="12.0" />
+                     </font>
+                  </Label>
+                  <Button fx:id="settingsDropdown" layoutX="27.0" layoutY="31.0" mnemonicParsing="false" onMouseEntered="#onSettingsDropdownMouseEnter" onMouseExited="#onSettingsDropdownMouseExit" style="-fx-background-color: #1c242e;" text="Settings" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" />
+                     </padding>
+                  </Button>
+                  <Button fx:id="logoutDropdown" layoutX="30.0" layoutY="51.0" mnemonicParsing="false" onAction="#onLogoutClick" onMouseEntered="#onLogoutDropdownMouseEnter" onMouseExited="#onLogoutDropdownMouseExit" style="-fx-background-color: #1c242e;" text="Logout" textFill="#ff1474">
+                     <font>
+                        <Font name="Righteous" size="12.0" />
+                     </font>
+                     <padding>
+                        <Insets bottom="2.0" left="2.0" right="2.0" />
+                     </padding>
+                  </Button>
+               </children>
+            </Pane>
+            <Pane fx:id="backgroundPopup" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000; -fx-opacity: 0.6;" visible="false" />
+            <Pane layoutX="390.0" layoutY="119.0" prefHeight="483.0" prefWidth="500.0" style="-fx-background-color: #2b3848; -fx-background-radius: 15;">
+               <children>
+                  <Label layoutX="14.0" layoutY="6.0" text="Add Profile" textFill="#fe8a00">
+                     <font>
+                        <Font name="Righteous" size="26.0" />
+                     </font>
+                  </Label>
+                  <Line endX="383.0" layoutX="117.0" layoutY="40.0" startX="-116.5" stroke="#fe8a00" />
+                  <Label layoutX="15.0" layoutY="46.0" text="Name :" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="16.0" layoutY="62.0" prefHeight="30.0" prefWidth="464.0" style="-fx-background-color: #2b3848; -fx-border-color: #2b3848 #2b3848 #697b7b #2b3848; -fx-text-fill: #f6f6f6;">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="15.0" layoutY="108.0" text="Email :" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="16.0" layoutY="124.0" onKeyPressed="#onAddProductOriginalPriceKeyTyped" prefHeight="30.0" prefWidth="464.0" style="-fx-background-color: #2b3848; -fx-border-color: #2b3848 #2b3848 #697b7b #2b3848; -fx-text-fill: #f6f6f6;">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="15.0" layoutY="170.0" text="No phone :" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="16.0" layoutY="186.0" onKeyTyped="#onAddProductSellingPriceKeyTyped" prefHeight="30.0" prefWidth="464.0" style="-fx-background-color: #2b3848; -fx-border-color: #2b3848 #2b3848 #697b7b #2b3848; -fx-text-fill: #f6f6f6;">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="15.0" layoutY="232.0" text="Date of birth :" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="16.0" layoutY="248.0" onKeyTyped="#onAddProductSellingPriceKeyTyped" prefHeight="30.0" prefWidth="464.0" style="-fx-background-color: #2b3848; -fx-border-color: #2b3848 #2b3848 #697b7b #2b3848; -fx-text-fill: #f6f6f6;">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="15.0" layoutY="294.0" text="Address :" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </Label>
+                  <TextField layoutX="16.0" layoutY="310.0" onKeyTyped="#onAddProductSellingPriceKeyTyped" prefHeight="30.0" prefWidth="464.0" style="-fx-background-color: #2b3848; -fx-border-color: #2b3848 #2b3848 #697b7b #2b3848; -fx-text-fill: #f6f6f6;">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="16.0" layoutY="356.0" text="Profile picture :" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="14.0" />
+                     </font>
+                  </Label>
+                  <Pane layoutX="16.0" layoutY="380.0" onMouseClicked="#onAddProductChooseFilePaneMouseClick" onMouseEntered="#onAddProductChooseFilePaneMouseEnter" onMouseExited="#onAddProductChooseFilePaneMouseExit" prefHeight="21.0" prefWidth="91.0" style="-fx-background-color: #fe8a00; -fx-background-radius: 5; -fx-border-color: #f6f6f6; -fx-border-radius: 5;">
+                     <children>
+                        <Label layoutX="5.0" text="Choose File" textFill="#f6f6f6">
+                           <font>
+                              <Font name="Righteous" size="15.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </Pane>
+                  <Line endX="473.0" endY="2.0" layoutX="7.0" layoutY="400.0" startX="103.0" startY="2.0" stroke="#697b7b" />
+                  <Label fx:id="addProductProductImagePathLabel" layoutX="117.0" layoutY="254.0" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="16.0" />
+                     </font>
+                  </Label>
+                  <Button layoutX="415.0" layoutY="442.0" mnemonicParsing="false" onMouseEntered="#onAddProductApplyButtonMouseEnter" onMouseExited="#onAddProductApplyButtonMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #00a6ff; -fx-background-radius: 13;" text="Save" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="13.0" />
+                     </font>
+                  </Button>
+                  <Button layoutX="329.0" layoutY="442.0" mnemonicParsing="false" onMouseEntered="#onAddProductCancelButtonMouseEnter" onMouseExited="#onAddProductCancelButtonMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #ff1474; -fx-background-radius: 13;" text="Cancel" textFill="#f6f6f6">
+                     <font>
+                        <Font name="Righteous" size="13.0" />
+                     </font>
+                  </Button>
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

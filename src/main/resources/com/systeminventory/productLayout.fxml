@@ -250,7 +250,7 @@
                         <Font name="Righteous" size="16.0" />
                      </font>
                   </Label>
-                  <Button fx:id="addProductApplyButton" layoutX="415.0" layoutY="401.0" mnemonicParsing="false" onAction="#onAddProductApplyButtonClick" onMouseEntered="#onAddProductApplyButtonMouseEnter" onMouseExited="#onAddProductApplyButtonMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #00a6ff; -fx-background-radius: 13;" text="Apply" textFill="#f6f6f6">
+                  <Button fx:id="addProductApplyButton" layoutX="415.0" layoutY="401.0" mnemonicParsing="false" onAction="#onAddProductApplyButtonClick" onMouseEntered="#onAddProductApplyButtonMouseEnter" onMouseExited="#onAddProductApplyButtonMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #00a6ff; -fx-background-radius: 13;" text="Save" textFill="#f6f6f6">
                      <font>
                         <Font name="Righteous" size="13.0" />
                      </font>

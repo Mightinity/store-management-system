@@ -29,6 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.text.NumberFormat;
+import java.util.Locale;
 
 public class productController {
 
@@ -441,6 +443,7 @@ public class productController {
             for (String productName : productKeys) {
                 JsonObject productData = jsonObject.getAsJsonObject(productName);
 
+<<<<<<< HEAD
                 Product product = new Product();
                 product.setProductName(productData.get("Title").getAsString());
                 product.setImageSource(productData.get("Image").getAsString());
@@ -448,6 +451,24 @@ public class productController {
                 product.setProductStock(productData.get("Stock").getAsString());
 
                 listProducts.add(product);
+=======
+                    Product product = new Product();
+                    product.setProductName(productData.get("Title").getAsString());
+                    product.setImageSource(productData.get("Image").getAsString());
+                    String sellingPriceString = productData.get("SellingPrice").getAsString();
+                    int sellingPrice = Integer.parseInt(sellingPriceString);
+                    NumberFormat formatNumber = NumberFormat.getNumberInstance();
+                    String formattedSellingPrice = formatNumber.format(sellingPrice);
+                    product.setProductPrice(formattedSellingPrice);
+                    product.setProductStock(productData.get("Stock").getAsString());
+
+                    listProducts.add(product);
+                }
+
+
+            } else {
+                System.err.println("Unable to find file productList.json");
+>>>>>>> 8c6a34c5d69506f029701ef1455a18ebc5de3a34
             }
         } catch (IOException e) {
             e.printStackTrace();
