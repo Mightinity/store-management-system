@@ -138,6 +138,8 @@
                   </Label>
                </children>
             </Pane>
+            <Pane prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #000000; -fx-opacity: 0.6;" visible="false" />
+            <Pane layoutX="390.0" layoutY="143.0" prefHeight="435.0" prefWidth="500.0" style="-fx-background-color: #2b3848; -fx-background-radius: 15;" visible="false" />
          </children></Pane>
    </children>
 </AnchorPane>

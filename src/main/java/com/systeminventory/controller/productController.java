@@ -1,10 +1,15 @@
 package com.systeminventory.controller;
 
 import com.systeminventory.App;
+import com.systeminventory.model.Product;
+import com.systeminventory.controller.productCardContoller;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
@@ -12,11 +17,17 @@ import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ResourceBundle;
 
 public class productController {
 
@@ -71,6 +82,11 @@ public class productController {
     private Label addProductProductNameLabel;
     @FXML
     private Label addProductProductStockLabel;
+
+    private List<Product> listProducts;
+
+    @FXML
+    private GridPane productCardContainer;
 
     @FXML
     void onButtonCashierClick(ActionEvent event) {
@@ -154,11 +170,6 @@ public class productController {
         buttonDashboard.setStyle("-fx-background-color: #151d26;" + "-fx-border-color: #697b7b;" + "-fx-text-fill: #697b7b;" +  "-fx-background-radius: 20;" + "-fx-border-radius: 20;");
     }
 
-    @FXML
-    private void initialize() {
-        scrollPane.setVbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-        scrollPane.setHbarPolicy(ScrollPane.ScrollBarPolicy.NEVER);
-    }
 
     public void onFilterButtonClick(ActionEvent actionEvent) {
         filterDropdown.setVisible(!filterDropdown.isVisible());
@@ -350,6 +361,93 @@ public class productController {
                 }
             }
         });
+    }
+
+    private List<Product> products() {
+        List<Product> listProducts = new ArrayList<>();
+
+        Product product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 1");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("10000");
+        product.setProductStock("10");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 2");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("20000");
+        product.setProductStock("20");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 3");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("30000");
+        product.setProductStock("30");
+        listProducts.add(product);
+
+        product = new Product();
+        product.setProductName("PRODUCT 4");
+        product.setImageSource("/assets/logo-sims.png");
+        product.setProductPrice("40000");
+        product.setProductStock("40");
+        listProducts.add(product);
+
+        return listProducts;
+    }
+
+    @FXML
+    public void initialize() throws IOException {
+
+        int column = 0;
+        int row = 1;
+
+        listProducts = new ArrayList<>(products());
+        for(Product product : listProducts){
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
+            VBox cardProduct = fxmlLoader.load();
+            productCardContoller cardController = fxmlLoader.getController();
+            cardController.setData(product);
+
+            if(column == 5){
+                column = 0;
+                ++row;
+            }
+
+            productCardContainer.add(cardProduct,column++,row);
+            GridPane.setMargin(cardProduct, new Insets(15));
+
+        }
     }
 
 }
