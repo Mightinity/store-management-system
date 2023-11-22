@@ -1,9 +1,11 @@
 package com.systeminventory.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.systeminventory.App;
 import com.systeminventory.model.Cashier;
+import com.systeminventory.model.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,7 +20,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class cashierController {
@@ -210,7 +217,7 @@ public class cashierController {
     }
 
     @FXML
-    private void onAddProfileApplyButtonClick(ActionEvent actionEvent) {
+    private void onAddProfileApplyButtonClick(ActionEvent actionEvent) throws IOException {
         setLabelPropertiesTextFillWhite(addProfileNameLabel, "Name:");
         setLabelPropertiesTextFillWhite(addProfileEmailLabel, "Email:");
         setLabelPropertiesTextFillWhite(addProfileNoPhoneLabel, "No phone:");
@@ -249,12 +256,49 @@ public class cashierController {
             status++;
         }
         if (status == 0){
-            System.out.println(addProfileNameField.getText());
-            System.out.println(addProfileEmailField.getText());
-            System.out.println(addProfileNoPhoneField.getText());
-            System.out.println(addProfileDateOfBirthField.getText());
-            System.out.println(addProfileAddressField.getText());
-            System.out.println(addProfileProfileImagePathLabel.getText());
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+            String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
+            String imageProfilePath = "./src/main/java/com/systeminventory/assets/imagesCashier/";
+
+            try (InputStream inputStream = new FileInputStream(jsonPath)){
+                InputStreamReader reader = new InputStreamReader(inputStream);
+                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+                List<String> profileKeys = new ArrayList<>(jsonObject.keySet());
+//                Collections.sort(profileKeys);
+                int nextKeyNumber = profileKeys.size()+1;
+                String newProfileKey = "cashier"+nextKeyNumber;
+
+                JsonObject newProfileData = new JsonObject();
+
+                String imageFileName = addProfileProfileImagePathLabel.getText();
+                Path sourceImagePath = Paths.get(addProfileProfileImageFullPathLabel.getText());
+                Path targetImagePath = Paths.get(imageProfilePath, imageFileName);
+
+                newProfileData.addProperty("Name", addProfileNameField.getText());
+                newProfileData.addProperty("Email", addProfileEmailField.getText());
+                newProfileData.addProperty("Phone", addProfileNoPhoneField.getText());
+                newProfileData.addProperty("DateOfBirth", addProfileDateOfBirthField.getText());
+                newProfileData.addProperty("Address", addProfileAddressField.getText());
+                newProfileData.addProperty("Image", imageProfilePath+imageFileName);
+
+                try{
+                    Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException err){
+                    err.printStackTrace();
+                }
+
+                jsonObject.add(newProfileKey, newProfileData);
+
+                try (Writer writer = new FileWriter(jsonPath)){
+                    gson.toJson(jsonObject, writer);
+                }
+
+            } catch (IOException err){
+                err.printStackTrace();
+            }
+            App.loadCashierScene();
         }
     }
 
@@ -306,6 +350,7 @@ public class cashierController {
                 cashier.setCashierName(cashierData.get("Name").getAsString());
                 cashier.setCashierNoPhone(cashierData.get("Phone").getAsString());
                 cashier.setCashierImageSource(cashierData.get("Image").getAsString());
+                cashier.setCashierEmail(cashierData.get("Email").getAsString());
 
                 listCashier.add(cashier);
             }

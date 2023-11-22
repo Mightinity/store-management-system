@@ -17,6 +17,8 @@ public class cashierProfileCardController {
 
     @FXML
     private Label profileCardNoPhone;
+    @FXML
+    private Label profileCardEmail;
 
     public void setData(Cashier cashier){
 
@@ -29,6 +31,8 @@ public class cashierProfileCardController {
         }
         profileCardName.setText(cashier.getCashierName());
         profileCardNoPhone.setText(cashier.getCashierNoPhone());
+        profileCardEmail.setText(cashier.getCashierEmail());
+
 
     }
 }

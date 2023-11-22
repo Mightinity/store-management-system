@@ -1,6 +1,7 @@
 package com.systeminventory.controller;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import com.systeminventory.App;
@@ -254,7 +255,7 @@ public class productController {
             status++;
         }
         if (status == 0){
-            Gson gson = new Gson();
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
             Random random = new Random();
 
             String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
@@ -265,7 +266,7 @@ public class productController {
                 JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
                 List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-                Collections.sort(productKeys);
+//                Collections.sort(productKeys);
                 int nextKeyNumber = productKeys.size()+1;
                 String newProductKey = "product"+nextKeyNumber;
 

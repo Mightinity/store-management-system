@@ -14,25 +14,25 @@
          <children>
             <ImageView fx:id="profileCardImage" fitHeight="130.0" fitWidth="130.0" layoutX="14.0" layoutY="11.0" pickOnBounds="true" style="-fx-background-radius: 20;">
                <image>
-                  <Image url="@../../../../../../../../Downloads/jaromir-kalina-ahTs3YRaGDg-unsplash.jpg" />
+                  <Image url="@../../../java/com/systeminventory/assets/imagesCashier/boss.jpg" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="157.0" layoutY="38.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="157.0" layoutY="18.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icon_idcard.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="157.0" layoutY="72.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="157.0" layoutY="52.0" pickOnBounds="true" preserveRatio="true">
                <image>
                   <Image url="@../../assets/icon_telepon.png" />
                </image>
             </ImageView>
-            <Label fx:id="profileCardName" layoutX="196.0" layoutY="38.0" prefHeight="23.0" prefWidth="283.0" text="Profile Cashier Name" textFill="#f6f6f6">
+            <Label fx:id="profileCardName" layoutX="196.0" layoutY="18.0" prefHeight="23.0" prefWidth="283.0" text="Profile Cashier Name" textFill="#f6f6f6">
                <font>
                   <Font name="Righteous" size="18.0" />
                </font>
             </Label>
-            <Label fx:id="profileCardNoPhone" layoutX="196.0" layoutY="71.0" prefHeight="23.0" prefWidth="283.0" text="Profile Cashier No Phone" textFill="#f6f6f6">
+            <Label fx:id="profileCardNoPhone" layoutX="196.0" layoutY="51.0" prefHeight="23.0" prefWidth="283.0" text="Profile Cashier No Phone" textFill="#f6f6f6">
                <font>
                   <Font name="Righteous" size="18.0" />
                </font>
@@ -55,6 +55,16 @@
                   </ImageView>
                </children>
             </Pane>
+            <ImageView fitHeight="24.0" fitWidth="32.0" layoutX="157.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../assets/icon_email.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="profileCardEmail" layoutX="196.0" layoutY="87.0" prefHeight="23.0" prefWidth="283.0" text="Profile Cashier Email" textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>
