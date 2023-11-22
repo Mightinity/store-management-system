@@ -24,13 +24,7 @@ public class productCardContoller {
 
     @FXML
     private Label productCardStock;
-
     public void setData(Product product){
-//        Image image = new Image(Objects.requireNonNull(getClass().getResourceAsStream(product.getImageSource())));
-//        productCardImage.setImage(image);
-//        productCardTitle.setText(product.getProductName());
-//        productCardPrice.setText(product.getProductPrice());
-//        productCardStock.setText(product.getProductStock());
 
         String imagePath = product.getImageSource();
         File file = new File(imagePath);

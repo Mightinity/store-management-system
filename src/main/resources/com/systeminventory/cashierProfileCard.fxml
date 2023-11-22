@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="152.0" prefWidth="494.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.systeminventory.controller.cashierProfileCardController">
+   <children>
+      <AnchorPane prefHeight="152.0" prefWidth="494.0" style="-fx-background-color: #202a31; -fx-background-radius: 17; -fx-border-color: #fe8a00; -fx-border-radius: 17;">
+         <children>
+            <ImageView fitHeight="127.0" fitWidth="130.0" layoutX="14.0" layoutY="12.0" pickOnBounds="true">
+               <image>
+                  <Image url="@../../../../../../../../Downloads/jaromir-kalina-ahTs3YRaGDg-unsplash.jpg" />
+               </image>
+            </ImageView>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

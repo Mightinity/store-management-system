@@ -432,7 +432,9 @@ public class productController {
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-            //Collections.sort(productKeys);
+            /*
+            * Collections.sort(productKeys);, FILTER FUNCTION AND SEARCHING MAYBE ON THIS SORT
+            * */
 
             for (String productName : productKeys) {
                 JsonObject productData = jsonObject.getAsJsonObject(productName);
