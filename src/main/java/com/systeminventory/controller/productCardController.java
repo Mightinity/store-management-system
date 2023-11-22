@@ -8,7 +8,7 @@ import javafx.scene.image.ImageView;
 
 import java.io.File;
 
-public class productCardContoller {
+public class productCardController {
 
     @FXML
     private ImageView productCardImage;

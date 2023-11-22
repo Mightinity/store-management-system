@@ -1,18 +1,25 @@
 package com.systeminventory.controller;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 import com.systeminventory.App;
+import com.systeminventory.model.Cashier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class cashierController {
     @FXML
@@ -65,6 +72,8 @@ public class cashierController {
     private Button buttonAddProfile;
     @FXML
     private Pane addProfileChooseFilePane;
+    @FXML
+    private GridPane profileCardContainer;
 
     @FXML
     void onAddProfileChooseFilePaneMouseClick(MouseEvent event) {
@@ -273,6 +282,60 @@ public class cashierController {
     @FXML
     private void onAddProfileCancelButtonMouseExit(MouseEvent mouseEvent) {
         addProfileCancelButton.setStyle("-fx-background-color: #ff1474;" + "-fx-background-radius: 13");
-
     }
+
+    private List<Cashier> readProfileFromJson() {
+        profileCardContainer.getChildren().clear();
+        List<Cashier> listCashier = new ArrayList<>();
+
+        Gson gson = new Gson();
+
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
+
+        try (InputStream inputStream = new FileInputStream(jsonPath)) {
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+            List<String> profileKeys = new ArrayList<>(jsonObject.keySet());
+            // Collections.sort(productKeys); // Opsional: sort jika diperlukan
+
+            for (String profileName : profileKeys) {
+                JsonObject cashierData = jsonObject.getAsJsonObject(profileName);
+
+                Cashier cashier = new Cashier();
+                cashier.setCashierName(cashierData.get("Name").getAsString());
+                cashier.setCashierNoPhone(cashierData.get("Phone").getAsString());
+                cashier.setCashierImageSource(cashierData.get("Image").getAsString());
+
+                listCashier.add(cashier);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return listCashier;
+    }
+
+
+    @FXML
+    public void initialize() throws IOException {
+
+        profileCardContainer.getChildren().clear();
+
+        int column = 0;
+        int row = 1;
+
+        List<Cashier> listCashier = new ArrayList<>(readProfileFromJson());
+        for(Cashier cashier : listCashier){
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
+            VBox cardProfile = fxmlLoader.load();
+            cashierProfileCardController cardController = fxmlLoader.getController();
+            cardController.setData(cashier);
+
+            profileCardContainer.add(cardProfile,column,row++);
+            GridPane.setMargin(cardProfile, new Insets(15));
+
+        }
+    }
+
 }

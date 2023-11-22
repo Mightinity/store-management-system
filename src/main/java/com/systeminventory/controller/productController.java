@@ -477,7 +477,7 @@ public class productController {
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
             VBox cardProduct = fxmlLoader.load();
-            productCardContoller cardController = fxmlLoader.getController();
+            productCardController cardController = fxmlLoader.getController();
             cardController.setData(product);
 
             if(column == 5){
