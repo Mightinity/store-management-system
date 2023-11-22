@@ -5,6 +5,7 @@ public class Cashier {
     private String cashierName;
     private String cashierNoPhone;
     private String cashierImageSource;
+    private String cashierEmail;
 
     public String getCashierName() {
         return cashierName;
@@ -28,5 +29,13 @@ public class Cashier {
 
     public void setCashierImageSource(String cashierImageSource) {
         this.cashierImageSource = cashierImageSource;
+    }
+
+    public String getCashierEmail() {
+        return cashierEmail;
+    }
+
+    public void setCashierEmail(String cashierEmail) {
+        this.cashierEmail = cashierEmail;
     }
 }
