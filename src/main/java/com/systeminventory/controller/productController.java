@@ -29,6 +29,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.*;
+import java.text.NumberFormat;
+
 
 public class productController {
 
@@ -432,9 +434,7 @@ public class productController {
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
             List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-            /*
-            * Collections.sort(productKeys);, FILTER FUNCTION AND SEARCHING MAYBE ON THIS SORT
-            * */
+            // Collections.sort(productKeys); // Opsional: sort jika diperlukan
 
             for (String productName : productKeys) {
                 JsonObject productData = jsonObject.getAsJsonObject(productName);
@@ -442,7 +442,17 @@ public class productController {
                 Product product = new Product();
                 product.setProductName(productData.get("Title").getAsString());
                 product.setImageSource(productData.get("Image").getAsString());
-                product.setProductPrice(productData.get("SellingPrice").getAsString());
+
+                // Mengambil nilai SellingPrice sebagai integer
+                int sellingPrice = productData.get("SellingPrice").getAsInt();
+
+                // Format angka tanpa simbol mata uang
+                NumberFormat formatNumber = NumberFormat.getNumberInstance();
+                String formattedSellingPrice = formatNumber.format(sellingPrice);
+
+                // Set nilai SellingPrice yang telah diformat pada objek product
+                product.setProductPrice(formattedSellingPrice);
+
                 product.setProductStock(productData.get("Stock").getAsString());
 
                 listProducts.add(product);
@@ -452,6 +462,7 @@ public class productController {
         }
         return listProducts;
     }
+
 
     @FXML
     public void initialize() throws IOException {
