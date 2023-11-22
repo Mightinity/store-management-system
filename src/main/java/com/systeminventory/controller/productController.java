@@ -90,8 +90,8 @@ public class productController {
     private Label addProductProductImageGetFullPathLabel;
 
     @FXML
-    void onButtonCashierClick(ActionEvent event) {
-
+    void onButtonCashierClick(ActionEvent event) throws IOException {
+        App.loadCashierScene();
     }
 
     @FXML
@@ -110,11 +110,7 @@ public class productController {
 
     @FXML
     void onProfileClick(MouseEvent event) {
-        if(profileDropdown.isVisible()){
-            profileDropdown.setVisible(false);
-        } else {
-            profileDropdown.setVisible(true);
-        }
+        profileDropdown.setVisible(!profileDropdown.isVisible());
     }
 
     @FXML

@@ -7,6 +7,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.io.PrintStream;
 
 public class App extends Application {
 
@@ -58,6 +59,15 @@ public class App extends Application {
         primaryStage.setTitle("Product - Store Inventory System");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    public static void loadCashierScene() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("cashierLayout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        primaryStage.setTitle("Cashier - Store Inventory System");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+
     }
 
 }
