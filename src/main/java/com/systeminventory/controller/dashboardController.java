@@ -27,8 +27,8 @@ public class dashboardController {
     private Button logoutDropdown;
 
     @FXML
-    void onButtonCashierClick(ActionEvent event) {
-
+    void onButtonCashierClick(ActionEvent event) throws IOException {
+        App.loadCashierScene();
     }
 
     @FXML
