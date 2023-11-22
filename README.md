@@ -1,7 +1,7 @@
 
 ![Logo](https://dev-to-uploads.s3.amazonaws.com/uploads/articles/th5xamgrr6se0x5ro4g6.png)
 
-
+ 
 # SIMS
 
 #### The Store Inventory Management System (SIMS) stands as a sophisticated apparatus designed for the meticulous orchestration of store management. Boasting advanced reporting functionalities and intricate calculations for gross revenue and net income, SIMS serves as a dynamic platform for effective store oversight. The system seamlessly facilitates the addition of products, complete with corresponding images and barcode integration. Moreover, SIMS introduces a dedicated cashier role to ensure a seamless customer service experience. Going beyond conventional CRUD operations, SIMS distinguishes itself by generating comprehensive monthly reports that delve into essential metrics such as gross revenue and net income. This pivotal project is part of the "Advanced Programming" course, with guidance provided by Sir. Ilham Perdana.
