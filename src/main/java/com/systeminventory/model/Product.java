@@ -5,6 +5,7 @@ public class Product {
     private String imageSource;
     private String productPrice;
     private String productStock;
+    private String keyProduct;
 
 
     public String getProductName() {
@@ -37,5 +38,13 @@ public class Product {
 
     public void setProductStock(String productStock) {
         this.productStock = productStock;
+    }
+
+    public String getKeyProduct() {
+        return keyProduct;
+    }
+
+    public void setKeyProduct(String keyProduct) {
+        this.keyProduct = keyProduct;
     }
 }
