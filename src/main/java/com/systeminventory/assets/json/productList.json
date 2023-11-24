@@ -1,103 +1,15 @@
 {
-  "product1": {
-    "idProduct": "X8HKFH5YD33O",
-    "Title": "Sepatu",
-    "OriginalPrice": 123123,
-    "SellingPrice": 5123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
-    "Stock": 1
-  },
-  "product2": {
-    "idProduct": "6R5DO7ZNQRNL",
-    "Title": "LOVE AANNR \u003c3",
-    "OriginalPrice": 123,
-    "SellingPrice": 123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
-    "Stock": 123
-  },
   "product3": {
-    "idProduct": "4G9506VE81YM",
-    "Title": "BIMO",
-    "OriginalPrice": 1223,
-    "SellingPrice": 312301,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/DHT8KXJRDDOO.png",
-    "Stock": 10
+    "idProduct": "480UVBBW3VAA",
+    "Title": "ANISA AYU",
+    "OriginalPrice": 100,
+    "SellingPrice": 200,
+    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
+    "Stock": 300
   },
   "product4": {
-    "idProduct": "X8HKFH5YD33O",
-    "Title": "Sepatu",
-    "OriginalPrice": 123123,
-    "SellingPrice": 5123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
-    "Stock": 1
-  },
-  "product5": {
-    "idProduct": "6R5DO7ZNQRNL",
-    "Title": "LOVE AANNR \u003c3",
-    "OriginalPrice": 123,
-    "SellingPrice": 123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
-    "Stock": 123
-  },
-  "product6": {
-    "idProduct": "4G9506VE81YM",
-    "Title": "BIMO",
-    "OriginalPrice": 1223,
-    "SellingPrice": 312301,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/DHT8KXJRDDOO.png",
-    "Stock": 10
-  },
-  "product7": {
-    "idProduct": "X8HKFH5YD33O",
-    "Title": "Sepatu",
-    "OriginalPrice": 123123,
-    "SellingPrice": 5123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
-    "Stock": 1
-  },
-  "product8": {
-    "idProduct": "6R5DO7ZNQRNL",
-    "Title": "LOVE AANNR \u003c3",
-    "OriginalPrice": 123,
-    "SellingPrice": 123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
-    "Stock": 123
-  },
-  "product9": {
-    "idProduct": "4G9506VE81YM",
-    "Title": "BIMO",
-    "OriginalPrice": 1223,
-    "SellingPrice": 312301,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/DHT8KXJRDDOO.png",
-    "Stock": 10
-  },
-  "product10": {
-    "idProduct": "X8HKFH5YD33O",
-    "Title": "Sepatu",
-    "OriginalPrice": 123123,
-    "SellingPrice": 5123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
-    "Stock": 1
-  },
-  "product11": {
-    "idProduct": "6R5DO7ZNQRNL",
-    "Title": "LOVE AANNR \u003c3",
-    "OriginalPrice": 123,
-    "SellingPrice": 123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
-    "Stock": 123
-  },
-  "product12": {
-    "idProduct": "4G9506VE81YM",
-    "Title": "BIMO",
-    "OriginalPrice": 1223,
-    "SellingPrice": 312301,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/DHT8KXJRDDOO.png",
-    "Stock": 10
-  },
-  "product13": {
-    "idProduct": "0MUBNYYZ9YMM",
-    "Title": "asd",
+    "idProduct": "B1SL3FW55554",
+    "Title": "BIMO AYU",
     "OriginalPrice": 123,
     "SellingPrice": 123,
     "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",

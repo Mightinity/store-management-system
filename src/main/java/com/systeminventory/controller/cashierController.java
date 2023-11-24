@@ -5,7 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.systeminventory.App;
 import com.systeminventory.model.Cashier;
-import com.systeminventory.model.Product;
+import com.systeminventory.model.ProfileCard;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -24,8 +24,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class cashierController {
@@ -81,6 +82,34 @@ public class cashierController {
     private Pane addProfileChooseFilePane;
     @FXML
     private GridPane profileCardContainer;
+    @FXML
+    private Label profileDetailsVarFullName;
+    @FXML
+    private Label profileDetailsVarPhone;
+    @FXML
+    private Label profileDetailsVarDateOfBirth;
+    @FXML
+    private Label profileDetailsVarEmail;
+    @FXML
+    private Label profileDetailsVarAddress;
+    @FXML
+    public Pane paneSelectAProfile;
+
+    private static String hashMD5(String input) {
+        StringBuilder result = new StringBuilder();
+        try {
+            MessageDigest md = MessageDigest.getInstance("MD5");
+            md.update(input.getBytes());
+            byte[] byteData = md.digest();
+
+            for (byte aByteData : byteData) {
+                result.append(Integer.toString((aByteData & 0xff) + 0x100, 16).substring(1));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return result.toString();
+    }
 
     @FXML
     void onAddProfileChooseFilePaneMouseClick(MouseEvent event) {
@@ -282,6 +311,7 @@ public class cashierController {
                 newProfileData.addProperty("DateOfBirth", addProfileDateOfBirthField.getText());
                 newProfileData.addProperty("Address", addProfileAddressField.getText());
                 newProfileData.addProperty("Image", imageProfilePath+imageFileName);
+                newProfileData.addProperty("Password", hashMD5("123456"));
 
                 try{
                     Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
@@ -328,6 +358,26 @@ public class cashierController {
         addProfileCancelButton.setStyle("-fx-background-color: #ff1474;" + "-fx-background-radius: 13");
     }
 
+    public void setDataCashierProfileDetails(String keyProfile){
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
+
+        try (InputStream inputStream = new FileInputStream(jsonPath)){
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            JsonObject cashierData = jsonObject.getAsJsonObject(keyProfile);
+            System.out.println(cashierData);
+            profileDetailsVarFullName.setText(cashierData.get("Name").getAsString());
+            profileDetailsVarPhone.setText(cashierData.get("Phone").getAsString());
+            profileDetailsVarDateOfBirth.setText(cashierData.get("DateOfBirth").getAsString());
+            profileDetailsVarEmail.setText(cashierData.get("Email").getAsString());
+            profileDetailsVarAddress.setText(cashierData.get("Address").getAsString());
+        } catch (IOException err){
+            err.printStackTrace();
+        }
+    }
+
     private List<Cashier> readProfileFromJson() {
         profileCardContainer.getChildren().clear();
         List<Cashier> listCashier = new ArrayList<>();
@@ -351,6 +401,7 @@ public class cashierController {
                 cashier.setCashierNoPhone(cashierData.get("Phone").getAsString());
                 cashier.setCashierImageSource(cashierData.get("Image").getAsString());
                 cashier.setCashierEmail(cashierData.get("Email").getAsString());
+                cashier.setKeyCashier(profileName);
 
                 listCashier.add(cashier);
             }
