@@ -57,7 +57,7 @@ public class productController {
     @FXML
     private Button buttonAddProduct;
     @FXML
-    private Pane backgroundPopup;
+    public Pane backgroundPopup;
     @FXML
     private Pane addProductPopup;
     @FXML
@@ -86,11 +86,22 @@ public class productController {
     private Label addProductProductNameLabel;
     @FXML
     private Label addProductProductStockLabel;
-
     @FXML
     private GridPane productCardContainer;
     @FXML
     private Label addProductProductImageGetFullPathLabel;
+    @FXML
+    private TextField searchProductNameField;
+    @FXML
+    private Label confirmDeleteVariableProductName;
+    @FXML
+    private Button confirmDeleteDeleteButton;
+    @FXML
+    private Button confirmDeleteCancelButton;
+    @FXML
+    private Label confirmDeleteKeyProduct;
+    @FXML
+    public Pane confirmDeletePane;
 
     @FXML
     void onButtonCashierClick(ActionEvent event) throws IOException {
@@ -209,13 +220,13 @@ public class productController {
         buttonAddProduct.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 20;");
     }
 
-    private static String findLastProductKey(List<Product> listProducts){
-        if(!listProducts.isEmpty()){
-            Product lastProduct = listProducts.get(listProducts.size() - 1);
-            return "product" + (listProducts.size());
-        }
-        return "product0";
-    }
+//    private static String findLastProductKey(List<Product> listProducts){
+//        if(!listProducts.isEmpty()){
+//            Product lastProduct = listProducts.get(listProducts.size() - 1);
+//            return "product" + (listProducts.size());
+//        }
+//        return "product0";
+//    }
 
     private void setLabelPropertiesTextFillWhite(Label label, String text){
         label.setText(text);
@@ -443,6 +454,7 @@ public class productController {
                 Product product = new Product();
                 product.setProductName(productData.get("Title").getAsString());
                 product.setImageSource(productData.get("Image").getAsString());
+                product.setKeyProduct(productName);
 
                 // Mengambil nilai SellingPrice sebagai integer
                 int sellingPrice = productData.get("SellingPrice").getAsInt();
@@ -490,6 +502,60 @@ public class productController {
             GridPane.setMargin(cardProduct, new Insets(15));
 
         }
+    }
+
+//    public void openConfirmDeleteDialog(String keyProduct, String productName) {
+//        backgroundPopup.setVisible(true);
+//        confirmDeletePane.setVisible(true);
+//        confirmDeleteKeyProduct.setText(keyProduct);
+//        confirmDeleteVariableProductName.setText(productName);
+//    }
+
+    public void deleteProductData(String keyProduct){
+
+        Gson gson = new Gson();
+
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
+
+        try (InputStream inputStream = new FileInputStream(jsonPath)){
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+//            JsonObject productData = jsonObject.getAsJsonObject(keyProduct);
+            jsonObject.remove(keyProduct);
+            System.out.println("Menghapus product " + keyProduct);
+            App.loadProductScene();
+        } catch (IOException err){
+            err.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onConfirmDeleteDeleteButtonClick(ActionEvent actionEvent) {
+        System.out.println(confirmDeleteVariableProductName.getText());
+    }
+
+    @FXML
+    private void onConfirmDeleteDeleteButtonMouseEnter(MouseEvent mouseEvent) {
+    }
+
+    @FXML
+    private void onConfirmDeleteDeleteButtonMouseExit(MouseEvent mouseEvent) {
+    }
+
+    @FXML
+    private void onConfirmDeleteCancelButtonClick(ActionEvent actionEvent) {
+        confirmDeleteVariableProductName.setText("");
+        confirmDeleteKeyProduct.setText("");
+        confirmDeletePane.setVisible(false);
+    }
+
+    @FXML
+    private void onConfirmDeleteCancelButtonMouseEnter(MouseEvent mouseEvent) {
+    }
+
+    @FXML
+    private void onConfirmDeleteCancelButtonMouseExit(MouseEvent mouseEvent) {
     }
 
 }
