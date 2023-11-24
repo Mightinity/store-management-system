@@ -6,6 +6,8 @@ public class Cashier {
     private String cashierNoPhone;
     private String cashierImageSource;
     private String cashierEmail;
+    private String cashierPassword;
+    private String keyCashier;
 
     public String getCashierName() {
         return cashierName;
@@ -37,5 +39,21 @@ public class Cashier {
 
     public void setCashierEmail(String cashierEmail) {
         this.cashierEmail = cashierEmail;
+    }
+
+    public String getCashierPassword() {
+        return cashierPassword;
+    }
+
+    public void setCashierPassword(String cashierPassword) {
+        this.cashierPassword = cashierPassword;
+    }
+
+    public String getKeyCashier() {
+        return keyCashier;
+    }
+
+    public void setKeyCashier(String keyCashier) {
+        this.keyCashier = keyCashier;
     }
 }

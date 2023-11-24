@@ -66,7 +66,7 @@ public class productCardController {
         if(result.isEmpty()){
             System.out.println("Alert close");
         } else if (result.get() == ButtonType.OK){
-            System.out.println("Delete product "+productCardTitle.getText());
+            controllerFromProduct.deleteProductData(keyProduct.getText());
         } else if (result.get() == ButtonType.CANCEL){
             System.out.println("Cancel");
         }

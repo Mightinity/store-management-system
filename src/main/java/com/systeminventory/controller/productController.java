@@ -17,6 +17,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -29,6 +30,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Key;
 import java.util.*;
 import java.text.NumberFormat;
 
@@ -433,7 +435,7 @@ public class productController {
         addProductPopup.setVisible(true);
     }
 
-    private List<Product> readProductsFromJson() {
+    private List<Product> readProductsFromJson(String searchTerm) {
         productCardContainer.getChildren().clear();
         List<Product> listProducts = new ArrayList<>();
 
@@ -450,25 +452,29 @@ public class productController {
 
             for (String productName : productKeys) {
                 JsonObject productData = jsonObject.getAsJsonObject(productName);
+                String searchText = productData.get("Title").getAsString();
 
-                Product product = new Product();
-                product.setProductName(productData.get("Title").getAsString());
-                product.setImageSource(productData.get("Image").getAsString());
-                product.setKeyProduct(productName);
+                if (searchTerm.isEmpty() || searchText.toLowerCase().contains(searchTerm.toLowerCase())){
+                    Product product = new Product();
+                    product.setProductName(productData.get("Title").getAsString());
+                    product.setImageSource(productData.get("Image").getAsString());
+                    product.setKeyProduct(productName);
 
-                // Mengambil nilai SellingPrice sebagai integer
-                int sellingPrice = productData.get("SellingPrice").getAsInt();
+                    // Mengambil nilai SellingPrice sebagai integer
+                    int sellingPrice = productData.get("SellingPrice").getAsInt();
 
-                // Format angka tanpa simbol mata uang
-                NumberFormat formatNumber = NumberFormat.getNumberInstance();
-                String formattedSellingPrice = formatNumber.format(sellingPrice);
+                    // Format angka tanpa simbol mata uang
+                    NumberFormat formatNumber = NumberFormat.getNumberInstance();
+                    String formattedSellingPrice = formatNumber.format(sellingPrice);
 
-                // Set nilai SellingPrice yang telah diformat pada objek product
-                product.setProductPrice(formattedSellingPrice);
+                    // Set nilai SellingPrice yang telah diformat pada objek product
+                    product.setProductPrice(formattedSellingPrice);
 
-                product.setProductStock(productData.get("Stock").getAsString());
+                    product.setProductStock(productData.get("Stock").getAsString());
 
-                listProducts.add(product);
+                    listProducts.add(product);
+                }
+
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -485,7 +491,7 @@ public class productController {
         int column = 0;
         int row = 1;
 
-        List<Product> listProducts = new ArrayList<>(readProductsFromJson());
+        List<Product> listProducts = new ArrayList<>(readProductsFromJson(""));
         for(Product product : listProducts){
             FXMLLoader fxmlLoader = new FXMLLoader();
             fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
@@ -513,17 +519,17 @@ public class productController {
 
     public void deleteProductData(String keyProduct){
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
 
         try (InputStream inputStream = new FileInputStream(jsonPath)){
             InputStreamReader reader = new InputStreamReader(inputStream);
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-//            JsonObject productData = jsonObject.getAsJsonObject(keyProduct);
             jsonObject.remove(keyProduct);
-            System.out.println("Menghapus product " + keyProduct);
+            try (Writer writer = new FileWriter(jsonPath)){
+                gson.toJson(jsonObject, writer);
+            }
             App.loadProductScene();
         } catch (IOException err){
             err.printStackTrace();
@@ -558,4 +564,31 @@ public class productController {
     private void onConfirmDeleteCancelButtonMouseExit(MouseEvent mouseEvent) {
     }
 
+    private void handleEnterKey(KeyEvent keyEvent) throws IOException {
+        if(keyEvent.getCode() == KeyCode.ENTER){
+            productCardContainer.getChildren().clear();
+            int column = 0;
+            int row = 1;
+            List<Product> listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()));
+            for(Product product : listProducts){
+                FXMLLoader fxmlLoader = new FXMLLoader();
+                fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
+                VBox cardProduct = fxmlLoader.load();
+                productCardController cardController = fxmlLoader.getController();
+                cardController.setData(product);
+                if(column == 5){
+                    column = 0;
+                    ++row;
+                }
+                productCardContainer.add(cardProduct,column++,row);
+                GridPane.setMargin(cardProduct, new Insets(15));
+
+            }
+        }
+    }
+
+    @FXML
+    private void searchTermKeyPress(KeyEvent keyEvent) throws IOException {
+        handleEnterKey(keyEvent);
+    }
 }
