@@ -5,6 +5,9 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 
 import com.systeminventory.App;
+import com.systeminventory.interfaces.DeleteProductListener;
+import com.systeminventory.interfaces.DetailsProductListener;
+import com.systeminventory.interfaces.EditProductListener;
 import com.systeminventory.model.Product;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,6 +19,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -24,13 +28,15 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.security.Key;
 import java.util.*;
 import java.text.NumberFormat;
 
@@ -104,6 +110,42 @@ public class productController {
     private Label confirmDeleteKeyProduct;
     @FXML
     public Pane confirmDeletePane;
+    @FXML
+    private Label addProductLabel;
+    @FXML
+    private Label keyProductOnPopUp;
+
+    @FXML
+    private Pane detailsProductPopup;
+    @FXML
+    private Label varProductNameDetailsProduct;
+    @FXML
+    private Label varOriginalPriceDetailsProduct;
+    @FXML
+    private Label varSellingPriceDetailsProduct;
+    @FXML
+    private Label varProductStockDetailsProduct;
+    @FXML
+    private ImageView barcodeImageDetailsProduct;
+    private DeleteProductListener deleteProductListener;
+    private EditProductListener editProductListener;
+    private DetailsProductListener detailsProductListener;
+    @FXML
+    private Button downloadBarcodeDetailsProduct;
+    @FXML
+    private Button cancelButtonDetailsProduct;
+    @FXML
+    private Label idProductDetailsProduct;
+    @FXML
+    private Pane downloadAlertPopup;
+    @FXML
+    private Label varStatusDownload;
+    @FXML
+    private Button okButtonStatusDownloadPopup;
+    @FXML
+    private Label confirmDeleteKeyProduct1;
+    @FXML
+    private Pane backgroundPopupDownload;
 
     @FXML
     void onButtonCashierClick(ActionEvent event) throws IOException {
@@ -236,85 +278,164 @@ public class productController {
     }
     @FXML
     private void onAddProductApplyButtonClick(ActionEvent actionEvent) throws IOException {
-        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
-        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
-        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
-        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
-        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
-        int status = 0;
-        if (addProductProductNameField.getText().isEmpty()){
-            addProductProductNameLabel.setText("Product name: (Required)");
-            addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProductOriginalPriceField.getText().isEmpty()){
-            addProductOriginalPriceLabel.setText("Original price: (Required)");
-            addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProductSellingPriceField.getText().isEmpty()){
-            addProductSellingPriceLabel.setText("Selling price: (Required)");
-            addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProductProductImagePathLabel.getText().isEmpty()){
-            addProductProductImageLabel.setText("Product image: (Required)");
-            addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProductProductStockField.getText().isEmpty()){
-            addProductProductStockLabel.setText("Product stock: (Required)");
-            addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (status == 0){
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-            Random random = new Random();
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
+        String imageProductPath = "./src/main/java/com/systeminventory/assets/imagesProduct/";
+        if (addProductLabel.getText().equals("Add Product")){
+            setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+            setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+            setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+            setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+            setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
+            int status = 0;
+            if (addProductProductNameField.getText().isEmpty()){
+                addProductProductNameLabel.setText("Product name: (Required)");
+                addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductOriginalPriceField.getText().isEmpty()){
+                addProductOriginalPriceLabel.setText("Original price: (Required)");
+                addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductSellingPriceField.getText().isEmpty()){
+                addProductSellingPriceLabel.setText("Selling price: (Required)");
+                addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductProductImagePathLabel.getText().isEmpty()){
+                addProductProductImageLabel.setText("Product image: (Required)");
+                addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductProductStockField.getText().isEmpty()){
+                addProductProductStockLabel.setText("Product stock: (Required)");
+                addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (status == 0){
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+                Random random = new Random();
 
-            String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
-            String imageProductPath = "./src/main/java/com/systeminventory/assets/imagesProduct/";
+                try (InputStream inputStream = new FileInputStream(jsonPath)){
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+                    JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-            try (InputStream inputStream = new FileInputStream(jsonPath)){
-                InputStreamReader reader = new InputStreamReader(inputStream);
-                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+                    List<String> productKeys = new ArrayList<>(jsonObject.keySet());
+    //                Collections.sort(productKeys);
+                    int nextKeyNumber = productKeys.size()+1;
+                    String newProductKey = "product"+nextKeyNumber;
 
-                List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-//                Collections.sort(productKeys);
-                int nextKeyNumber = productKeys.size()+1;
-                String newProductKey = "product"+nextKeyNumber;
+                    while (productKeys.contains(newProductKey)){
+                        nextKeyNumber++;
+                        newProductKey = "product"+nextKeyNumber;
+                    }
 
-                JsonObject newProductData = new JsonObject();
-                int originalPrice = Integer.parseInt(addProductOriginalPriceField.getText());
-                int sellingPrice = Integer.parseInt(addProductSellingPriceField.getText());
-                int stock = Integer.parseInt(addProductProductStockField.getText());
+                    JsonObject newProductData = new JsonObject();
+                    int originalPrice = Integer.parseInt(addProductOriginalPriceField.getText());
+                    int sellingPrice = Integer.parseInt(addProductSellingPriceField.getText());
+                    int stock = Integer.parseInt(addProductProductStockField.getText());
 
-                String imageFileName = addProductProductImagePathLabel.getText();
-                Path sourceImagePath = Paths.get(addProductProductImageGetFullPathLabel.getText());
-                Path targetImagePath = Paths.get(imageProductPath, imageFileName);
+                    String imageFileName = addProductProductImagePathLabel.getText();
+                    Path sourceImagePath = Paths.get(addProductProductImageGetFullPathLabel.getText());
+                    Path targetImagePath = Paths.get(imageProductPath, imageFileName);
 
-                newProductData.addProperty("idProduct", generateIdProduct(random));
-                newProductData.addProperty("Title", addProductProductNameField.getText());
-                newProductData.addProperty("OriginalPrice", originalPrice);
-                newProductData.addProperty("SellingPrice", sellingPrice);
-                newProductData.addProperty("Image", imageProductPath+imageFileName);
-                newProductData.addProperty("Stock", stock);
+                    newProductData.addProperty("idProduct", generateIdProduct(random));
+                    newProductData.addProperty("Title", addProductProductNameField.getText());
+                    newProductData.addProperty("OriginalPrice", originalPrice);
+                    newProductData.addProperty("SellingPrice", sellingPrice);
+                    newProductData.addProperty("Image", imageProductPath+imageFileName);
+                    newProductData.addProperty("Stock", stock);
 
-                try{
-                    Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                    try{
+                        Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException err){
+                        err.printStackTrace();
+                    }
+
+                    jsonObject.add(newProductKey, newProductData);
+
+                    try (Writer writer = new FileWriter(jsonPath)){
+                        gson.toJson(jsonObject, writer);
+                    }
+
                 } catch (IOException err){
                     err.printStackTrace();
                 }
-
-                jsonObject.add(newProductKey, newProductData);
-
-                try (Writer writer = new FileWriter(jsonPath)){
-                    gson.toJson(jsonObject, writer);
-                }
-
-            } catch (IOException err){
-                err.printStackTrace();
+                App.loadProductScene();
             }
-            App.loadProductScene();
+        } else if (addProductLabel.getText().equals("Edit Product")){
+            setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+            setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+            setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+            setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+            setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
+            int status = 0;
+            if (addProductProductNameField.getText().isEmpty()){
+                addProductProductNameLabel.setText("Product name: (Required)");
+                addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductOriginalPriceField.getText().isEmpty()){
+                addProductOriginalPriceLabel.setText("Original price: (Required)");
+                addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductSellingPriceField.getText().isEmpty()){
+                addProductSellingPriceLabel.setText("Selling price: (Required)");
+                addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductProductImagePathLabel.getText().isEmpty()){
+                addProductProductImageLabel.setText("Product image: (Required)");
+                addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (addProductProductStockField.getText().isEmpty()){
+                addProductProductStockLabel.setText("Product stock: (Required)");
+                addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (status == 0){
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+                try (InputStream inputStream = new FileInputStream(jsonPath)){
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+                    JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+                    JsonObject productKey = jsonObject.getAsJsonObject(keyProductOnPopUp.getText());
+
+                    if (keyProductOnPopUp.getText() != null){
+                        int originalPrice = Integer.parseInt(addProductOriginalPriceField.getText());
+                        int sellingPrice = Integer.parseInt(addProductSellingPriceField.getText());
+                        int stock = Integer.parseInt(addProductProductStockField.getText());
+
+                        String imageFileName = addProductProductImagePathLabel.getText();
+                        if (!(imageProductPath+imageFileName).equals(productKey.get("Image").getAsString())){
+                            Path newSourceImagePath = Paths.get(addProductProductImageGetFullPathLabel.getText());
+                            Path targetImagePath = Paths.get(imageProductPath, imageFileName);
+
+                            try {
+                                Files.copy(newSourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                            } catch (IOException err){
+                                err.printStackTrace();
+                            }
+                        }
+
+                        productKey.addProperty("Title", addProductProductNameField.getText());
+                        productKey.addProperty("OriginalPrice", originalPrice);
+                        productKey.addProperty("SellingPrice", sellingPrice);
+                        productKey.addProperty("Image", imageProductPath+imageFileName);
+                        productKey.addProperty("Stock", stock);
+
+                        try (Writer writer = new FileWriter(jsonPath)){
+                            gson.toJson(jsonObject, writer);
+                        }
+                    }
+                } catch (IOException err){
+                    err.printStackTrace();
+                }
+                App.loadProductScene();
+            }
         }
     }
 
@@ -421,6 +542,7 @@ public class productController {
 
     @FXML
     private void onButtonAddProductClick(ActionEvent actionEvent) throws IOException {
+        addProductLabel.setText("Add Product");
         addProductProductNameField.setText("");
         addProductOriginalPriceField.setText("");
         addProductSellingPriceField.setText("");
@@ -458,19 +580,16 @@ public class productController {
                     Product product = new Product();
                     product.setProductName(productData.get("Title").getAsString());
                     product.setImageSource(productData.get("Image").getAsString());
-                    product.setKeyProduct(productName);
+                    product.setKeyProduct(productName); // productname == object keyproduct on json
 
-                    // Mengambil nilai SellingPrice sebagai integer
-                    int sellingPrice = productData.get("SellingPrice").getAsInt();
-
-                    // Format angka tanpa simbol mata uang
-                    NumberFormat formatNumber = NumberFormat.getNumberInstance();
+                    int sellingPrice = productData.get("SellingPrice").getAsInt(); // Mengambil nilai SellingPrice sebagai integer
+                    NumberFormat formatNumber = NumberFormat.getNumberInstance(); // Format angka tanpa simbol mata uang
                     String formattedSellingPrice = formatNumber.format(sellingPrice);
-
-                    // Set nilai SellingPrice yang telah diformat pada objek product
-                    product.setProductPrice(formattedSellingPrice);
+                    product.setProductSellingPrice(formattedSellingPrice); // Set nilai SellingPrice yang telah diformat pada objek product
+                    product.setProductOriginalPrice(productData.get("OriginalPrice").getAsString());
 
                     product.setProductStock(productData.get("Stock").getAsString());
+                    product.setIdProduct(productData.get("idProduct").getAsString());
 
                     listProducts.add(product);
                 }
@@ -488,6 +607,25 @@ public class productController {
 
         productCardContainer.getChildren().clear();
 
+        deleteProductListener = new DeleteProductListener() {
+            @Override
+            public void clickDeleteProductListener(Product product) {
+                openConfirmDeleteProductDialog(product);
+            }
+        };
+        editProductListener = new EditProductListener() {
+            @Override
+            public void clickEditProductListener(Product product) {
+                openEditProductPopup(product);
+            }
+        };
+        detailsProductListener = new DetailsProductListener() {
+            @Override
+            public void clickDetailsProductListener(Product product) {
+                openDetailsProductPopup(product);
+            }
+        };
+
         int column = 0;
         int row = 1;
 
@@ -497,7 +635,7 @@ public class productController {
             fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
             VBox cardProduct = fxmlLoader.load();
             productCardController cardController = fxmlLoader.getController();
-            cardController.setData(product);
+            cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
 
             if(column == 5){
                 column = 0;
@@ -510,12 +648,48 @@ public class productController {
         }
     }
 
-//    public void openConfirmDeleteDialog(String keyProduct, String productName) {
-//        backgroundPopup.setVisible(true);
-//        confirmDeletePane.setVisible(true);
-//        confirmDeleteKeyProduct.setText(keyProduct);
-//        confirmDeleteVariableProductName.setText(productName);
-//    }
+    public void openDetailsProductPopup(Product product){
+        String apiBarcodePath = "https://barcodeapi.org/api/auto/";
+        backgroundPopup.setVisible(true);
+        detailsProductPopup.setVisible(true);
+        varProductNameDetailsProduct.setText(product.getProductName());
+        int originalPrice = Integer.parseInt(product.getProductOriginalPrice().replace(",",""));
+        int sellingPrice = Integer.parseInt(product.getProductSellingPrice().replace(",",""));
+        NumberFormat formatNumber = NumberFormat.getNumberInstance();
+        String formattedOriginalPrice = formatNumber.format(originalPrice);
+        String formattedSellingPrice = formatNumber.format(sellingPrice);
+        varOriginalPriceDetailsProduct.setText(formattedOriginalPrice);
+        varSellingPriceDetailsProduct.setText(formattedSellingPrice);
+        varProductStockDetailsProduct.setText(product.getProductStock());
+        Image image = new Image(apiBarcodePath+product.getIdProduct());
+        barcodeImageDetailsProduct.setImage(image);
+        idProductDetailsProduct.setText(product.getIdProduct());
+    }
+
+    public void openEditProductPopup(Product product){
+        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
+        addProductLabel.setText("Edit Product");
+        keyProductOnPopUp.setText(product.getKeyProduct());
+        addProductProductNameField.setText(product.getProductName());
+        addProductOriginalPriceField.setText(product.getProductOriginalPrice());
+        addProductSellingPriceField.setText(product.getProductSellingPrice().replaceAll(",",""));
+        addProductProductImagePathLabel.setText(product.getImageSource().substring(57));
+        addProductProductImageGetFullPathLabel.setText(product.getImageSource());
+        addProductProductStockField.setText(product.getProductStock());
+        backgroundPopup.setVisible(true);
+        addProductPopup.setVisible(true);
+    }
+
+    public void openConfirmDeleteProductDialog(Product product) {
+        backgroundPopup.setVisible(true);
+        confirmDeletePane.setVisible(true);
+        confirmDeleteKeyProduct.setText(product.getKeyProduct());
+        confirmDeleteVariableProductName.setText(product.getProductName() + "?");
+    }
 
     public void deleteProductData(String keyProduct){
 
@@ -538,15 +712,21 @@ public class productController {
 
     @FXML
     private void onConfirmDeleteDeleteButtonClick(ActionEvent actionEvent) {
-        System.out.println(confirmDeleteVariableProductName.getText());
+        deleteProductData(confirmDeleteKeyProduct.getText());
+        confirmDeleteVariableProductName.setText("");
+        confirmDeleteKeyProduct.setText("");
+        confirmDeletePane.setVisible(false);
+        backgroundPopup.setVisible(false);
     }
 
     @FXML
     private void onConfirmDeleteDeleteButtonMouseEnter(MouseEvent mouseEvent) {
+        confirmDeleteDeleteButton.setStyle("-fx-background-color: #19a6b7;"+"-fx-background-radius: 13;");
     }
 
     @FXML
     private void onConfirmDeleteDeleteButtonMouseExit(MouseEvent mouseEvent) {
+        confirmDeleteDeleteButton.setStyle("-fx-background-color: #1ecbe1;"+"-fx-background-radius: 13;");
     }
 
     @FXML
@@ -554,19 +734,43 @@ public class productController {
         confirmDeleteVariableProductName.setText("");
         confirmDeleteKeyProduct.setText("");
         confirmDeletePane.setVisible(false);
+        backgroundPopup.setVisible(false);
     }
 
     @FXML
     private void onConfirmDeleteCancelButtonMouseEnter(MouseEvent mouseEvent) {
+        confirmDeleteCancelButton.setStyle("-fx-background-color: #e0005c;" + "-fx-background-radius: 13;");
     }
 
     @FXML
     private void onConfirmDeleteCancelButtonMouseExit(MouseEvent mouseEvent) {
+        confirmDeleteCancelButton.setStyle("-fx-background-color: #ff1474;" + "-fx-background-radius: 13;");
     }
 
     private void handleEnterKey(KeyEvent keyEvent) throws IOException {
         if(keyEvent.getCode() == KeyCode.ENTER){
             productCardContainer.getChildren().clear();
+            deleteProductListener = new DeleteProductListener() {
+                @Override
+                public void clickDeleteProductListener(Product product) {
+                    openConfirmDeleteProductDialog(product);
+                }
+            };
+
+            editProductListener = new EditProductListener() {
+                @Override
+                public void clickEditProductListener(Product product) {
+                    openEditProductPopup(product);
+                }
+            };
+
+            detailsProductListener = new DetailsProductListener() {
+                @Override
+                public void clickDetailsProductListener(Product product) {
+                    openDetailsProductPopup(product);
+                }
+            };
+
             int column = 0;
             int row = 1;
             List<Product> listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()));
@@ -575,7 +779,7 @@ public class productController {
                 fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
                 VBox cardProduct = fxmlLoader.load();
                 productCardController cardController = fxmlLoader.getController();
-                cardController.setData(product);
+                cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
                 if(column == 5){
                     column = 0;
                     ++row;
@@ -590,5 +794,86 @@ public class productController {
     @FXML
     private void searchTermKeyPress(KeyEvent keyEvent) throws IOException {
         handleEnterKey(keyEvent);
+    }
+
+    @FXML
+    private void downloadBarcodeDetailsProductMouseEnter(MouseEvent mouseEvent) {
+        downloadBarcodeDetailsProduct.setStyle("-fx-background-color: #ffa132;"+"-fx-background-radius: 13;");
+    }
+
+    @FXML
+    private void downloadBarcodeDetailsProductMouseExit(MouseEvent mouseEvent) {
+        downloadBarcodeDetailsProduct.setStyle("-fx-background-color: #fe8a00;"+"-fx-background-radius: 13;");
+    }
+
+
+    private void downloadImage(String imageUrl, File destination) throws IOException {
+        URL url = new URL(imageUrl);
+        URLConnection connection = url.openConnection();
+        try (InputStream inputStream = connection.getInputStream();
+             FileOutputStream outputStream = new FileOutputStream(destination)) {
+            byte[] buffer = new byte[4096];
+            int bytesRead;
+            while ((bytesRead = inputStream.read(buffer)) != -1) {
+                outputStream.write(buffer, 0, bytesRead);
+            }
+        }
+    }
+
+    @FXML
+    private void downloadBarcodeDetailsProductMouseClick(MouseEvent mouseEvent) throws InterruptedException {
+        String imageUrl = "https://barcodeapi.org/api/auto/"+idProductDetailsProduct.getText();
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Save Barcode Image");
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("PNG Images", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+        fileChooser.setInitialFileName("SIMS_BARCODE_"+idProductDetailsProduct.getText()+".png");
+
+        File file = fileChooser.showSaveDialog(new Stage());
+        if(file != null){
+            downloadAlertPopup.setVisible(true);
+            backgroundPopupDownload.setVisible(true);
+            try{
+                downloadImage(imageUrl, file);
+                varStatusDownload.setText("Downloading Successfully");
+                okButtonStatusDownloadPopup.setVisible(true);
+            } catch (IOException err){
+                varStatusDownload.setText("Download Failed!");
+                okButtonStatusDownloadPopup.setVisible(true);
+            }
+        }
+    }
+
+    @FXML
+    private void cancelButtonDetailsProductMouseClick(MouseEvent mouseEvent) {
+        detailsProductPopup.setVisible(false);
+        backgroundPopup.setVisible(false);
+    }
+
+    @FXML
+    private void cancelButtonDetailsProductMouseEnter(MouseEvent mouseEvent) {
+        cancelButtonDetailsProduct.setStyle("-fx-background-color: #e0005c;"+"-fx-background-radius: 13;");
+    }
+
+    @FXML
+    private void cancelButtonDetailsProductMouseExit(MouseEvent mouseEvent) {
+        cancelButtonDetailsProduct.setStyle("-fx-background-color: #ff1474;"+"-fx-background-radius: 13;");
+    }
+
+    @FXML
+    private void okButtonStatusDownloadPopupClick(ActionEvent actionEvent) {
+        downloadAlertPopup.setVisible(false);
+        backgroundPopupDownload.setVisible(false);
+    }
+
+    @FXML
+    private void okButtonStatusDownloadPopupMouseEnter(MouseEvent mouseEvent) {
+        okButtonStatusDownloadPopup.setStyle("-fx-background-color: #009cef;"+"-fx-background-radius: 13;");
+    }
+
+    @FXML
+    private void okButtonStatusDownloadPopupMouseExit(MouseEvent mouseEvent) {
+        okButtonStatusDownloadPopup.setStyle("-fx-background-color: #00a6ff;"+"-fx-background-radius: 13;");
     }
 }

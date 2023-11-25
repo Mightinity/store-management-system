@@ -3,9 +3,12 @@ package com.systeminventory.model;
 public class Product {
     private String productName;
     private String imageSource;
-    private String productPrice;
+    private String productOriginalPrice;
+    private String productSellingPrice;
     private String productStock;
     private String keyProduct;
+    private String idProduct;
+
 
 
     public String getProductName() {
@@ -24,12 +27,12 @@ public class Product {
         this.imageSource = imageSource;
     }
 
-    public String getProductPrice() {
-        return productPrice;
+    public String getProductSellingPrice() {
+        return productSellingPrice;
     }
 
-    public void setProductPrice(String productPrice) {
-        this.productPrice = productPrice;
+    public void setProductSellingPrice(String productSellingPrice) {
+        this.productSellingPrice = productSellingPrice;
     }
 
     public String getProductStock() {
@@ -46,5 +49,21 @@ public class Product {
 
     public void setKeyProduct(String keyProduct) {
         this.keyProduct = keyProduct;
+    }
+
+    public String getProductOriginalPrice() {
+        return productOriginalPrice;
+    }
+
+    public void setProductOriginalPrice(String productOriginalPrice) {
+        this.productOriginalPrice = productOriginalPrice;
+    }
+
+    public String getIdProduct() {
+        return idProduct;
+    }
+
+    public void setIdProduct(String idProduct) {
+        this.idProduct = idProduct;
     }
 }

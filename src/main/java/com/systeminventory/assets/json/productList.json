@@ -1,18 +1,26 @@
 {
-  "product3": {
-    "idProduct": "480UVBBW3VAA",
-    "Title": "ANISA AYU",
-    "OriginalPrice": 100,
-    "SellingPrice": 200,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
-    "Stock": 300
+  "product1": {
+    "idProduct": "IVL1EGU8FJO1",
+    "Title": "BAJU KEREN COY",
+    "OriginalPrice": 50000,
+    "SellingPrice": 1000000,
+    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
+    "Stock": 10
   },
-  "product4": {
-    "idProduct": "B1SL3FW55554",
-    "Title": "BIMO AYU",
-    "OriginalPrice": 123,
-    "SellingPrice": 123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/22.png",
+  "product2": {
+    "idProduct": "VF26B2738BXS",
+    "Title": "Sepatu in ibos",
+    "OriginalPrice": 123123,
+    "SellingPrice": 123123,
+    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
+    "Stock": 123
+  },
+  "product3": {
+    "idProduct": "95JJ8SL5KK3R",
+    "Title": "coba ini",
+    "OriginalPrice": 1000,
+    "SellingPrice": 5000,
+    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/DHT8KXJRDDOO.png",
     "Stock": 123
   }
 }

@@ -1,14 +1,8 @@
 package com.systeminventory.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.systeminventory.App;
-import com.systeminventory.Listener;
+import com.systeminventory.interfaces.ProfileDetailsListener;
 import com.systeminventory.model.Cashier;
-import com.systeminventory.model.ProfileCard;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -31,11 +25,11 @@ public class cashierProfileCardController {
     @FXML
     private Label keyCashierProfile;
     private Cashier cashier;
-    private Listener listener;
+    private ProfileDetailsListener profileDetailsListener;
 
-    public void setData(Cashier cashier, Listener listener){
+    public void setData(Cashier cashier, ProfileDetailsListener profileDetailsListener){
         this.cashier = cashier;
-        this.listener = listener;
+        this.profileDetailsListener = profileDetailsListener;
         String imagePath = cashier.getCashierImageSource();
         File file = new File(imagePath);
         if(file.exists()){
@@ -59,6 +53,6 @@ public class cashierProfileCardController {
 
     @FXML
     private void cashierProfileBackgroundMouseClick(MouseEvent mouseEvent) {
-        listener.clickMyListener(cashier);
+        profileDetailsListener.clickProfileDetailsListener(cashier);
     }
 }

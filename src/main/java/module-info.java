@@ -9,4 +9,5 @@ module com.systeminventory {
     opens com.systeminventory.controller to javafx.fxml;
     exports com.systeminventory.controller;
     exports com.systeminventory;
+    exports com.systeminventory.interfaces;
 }
