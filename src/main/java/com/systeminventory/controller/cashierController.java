@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.systeminventory.App;
-import com.systeminventory.Listener;
+import com.systeminventory.interfaces.ProfileDetailsListener;
 import com.systeminventory.model.Cashier;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -99,7 +99,7 @@ public class cashierController {
     @FXML
     public Pane paneSelectAProfile;
 
-    private Listener listener;
+    private ProfileDetailsListener profileDetailsListener;
     @FXML
     private ImageView profileDetailsVarImage;
     @FXML
@@ -309,6 +309,11 @@ public class cashierController {
                 int nextKeyNumber = profileKeys.size()+1;
                 String newProfileKey = "cashier"+nextKeyNumber;
 
+                while (profileKeys.contains(newProfileKey)){
+                    nextKeyNumber++;
+                    newProfileKey = "product"+nextKeyNumber;
+                }
+
                 JsonObject newProfileData = new JsonObject();
 
                 String imageFileName = addProfileProfileImagePathLabel.getText();
@@ -427,7 +432,6 @@ public class cashierController {
         return listCashier;
     }
 
-
     private void setChosenProfile(Cashier cashier){
         paneSelectAProfile.setVisible(false);
         profileDetailsVarFullName.setText(cashier.getCashierName());
@@ -451,9 +455,9 @@ public class cashierController {
 
 //        if (!listCashier.isEmpty()){
 //            setChosenProfile(listCashier.get(0));
-        listener = new Listener() {
+        profileDetailsListener = new ProfileDetailsListener() {
             @Override
-            public void clickMyListener(Cashier cashier) {
+            public void clickProfileDetailsListener(Cashier cashier) {
                 setChosenProfile(cashier);
             }
         };
@@ -467,7 +471,7 @@ public class cashierController {
             fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
             VBox cardProfile = fxmlLoader.load();
             cashierProfileCardController cardController = fxmlLoader.getController();
-            cardController.setData(cashier, listener);
+            cardController.setData(cashier, profileDetailsListener);
 
             profileCardContainer.add(cardProfile,column,row++);
             GridPane.setMargin(cardProfile, new Insets(15));
@@ -481,9 +485,9 @@ public class cashierController {
             List<Cashier> listCashier = new ArrayList<>(readProfileFromJson(searchTermProfile.getText()));
             profileCardContainer.getChildren().clear();
 
-            listener = new Listener() {
+            profileDetailsListener = new ProfileDetailsListener() {
                 @Override
-                public void clickMyListener(Cashier cashier) {
+                public void clickProfileDetailsListener(Cashier cashier) {
                     setChosenProfile(cashier);
                 }
             };
@@ -494,7 +498,7 @@ public class cashierController {
                 fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
                 VBox cardProfile = fxmlLoader.load();
                 cashierProfileCardController cardController = fxmlLoader.getController();
-                cardController.setData(cashier, listener);
+                cardController.setData(cashier, profileDetailsListener);
 
                 profileCardContainer.add(cardProfile,column,row++);
                 GridPane.setMargin(cardProfile, new Insets(15));

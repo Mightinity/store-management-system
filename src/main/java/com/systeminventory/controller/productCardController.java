@@ -1,11 +1,10 @@
 package com.systeminventory.controller;
 
-import com.systeminventory.App;
+import com.systeminventory.interfaces.DeleteProductListener;
+import com.systeminventory.interfaces.DetailsProductListener;
+import com.systeminventory.interfaces.EditProductListener;
 import com.systeminventory.model.Product;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Alert;
-import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,7 +13,6 @@ import javafx.scene.layout.Pane;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Optional;
 
 public class productCardController {
 
@@ -35,8 +33,16 @@ public class productCardController {
     @FXML
     private Label keyProduct;
 
-    public void setData(Product product){
+    private Product product;
+    private DeleteProductListener deleteProductListener;
+    private EditProductListener editProductListener;
+    private DetailsProductListener detailsProductListener;
 
+    public void setData(Product product, DeleteProductListener deleteProductListener, EditProductListener editProductListener, DetailsProductListener detailsProductListener){
+        this.product = product;
+        this.deleteProductListener = deleteProductListener;
+        this.editProductListener = editProductListener;
+        this.detailsProductListener = detailsProductListener;
         String imagePath = product.getImageSource();
         File file = new File(imagePath);
 
@@ -45,7 +51,7 @@ public class productCardController {
             productCardImage.setImage(image);
         }
         productCardTitle.setText(product.getProductName());
-        productCardPrice.setText(product.getProductPrice());
+        productCardPrice.setText(product.getProductSellingPrice());
         productCardStock.setText(product.getProductStock());
         keyProduct.setText(product.getKeyProduct());
 
@@ -53,24 +59,7 @@ public class productCardController {
 
     @FXML
     private void onDeleteButtonProductMouseClick(MouseEvent mouseEvent) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(App.class.getResource("productLayout.fxml"));
-        fxmlLoader.load();
-        productController controllerFromProduct = fxmlLoader.getController();
-        
-        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-        alert.setTitle("Delete product");
-        alert.setContentText("Apakah yakin ingin menghapus product "+productCardTitle.getText());
-        Optional<ButtonType> result = alert.showAndWait();
-
-        if(result.isEmpty()){
-            System.out.println("Alert close");
-        } else if (result.get() == ButtonType.OK){
-            controllerFromProduct.deleteProductData(keyProduct.getText());
-        } else if (result.get() == ButtonType.CANCEL){
-            System.out.println("Cancel");
-        }
-//        controllerFromProduct.openConfirmDeleteDialog(keyProduct.getText(), productCardTitle.getText());
+        deleteProductListener.clickDeleteProductListener(product);
     }
 
     @FXML
@@ -85,11 +74,12 @@ public class productCardController {
 
     @FXML
     private void onEditButtonProductMouseClick(MouseEvent mouseEvent) {
+        editProductListener.clickEditProductListener(product);
     }
 
     @FXML
     private void onEditButtonProductMouseEnter(MouseEvent mouseEvent) {
-        editButtonProduct.setStyle("-fx-background-color: #14ff8e;"+"-fx-background-radius: 5;");
+        editButtonProduct.setStyle("-fx-background-color: #00c164;"+"-fx-background-radius: 5;");
     }
 
     @FXML
@@ -100,11 +90,12 @@ public class productCardController {
 
     @FXML
     private void onInfoButtonProductMouseClick(MouseEvent mouseEvent) {
+        detailsProductListener.clickDetailsProductListener(product);
     }
 
     @FXML
     private void onInfoButtonProductMouseEnter(MouseEvent mouseEvent) {
-        infoButtonProduct.setStyle("-fx-background-color: #e7d039;"+"-fx-background-radius: 5;");
+        infoButtonProduct.setStyle("-fx-background-color: #bea817;"+"-fx-background-radius: 5;");
     }
 
     @FXML
