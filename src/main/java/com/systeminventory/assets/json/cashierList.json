@@ -25,5 +25,14 @@
     "Address": "123",
     "Image": "./src/main/java/com/systeminventory/assets/imagesCashier/22.png",
     "Password": "e10adc3949ba59abbe56e057f20f883e"
+  },
+  "cashier4": {
+    "Name": "Mantap hahaha",
+    "Email": "hahaha@hahaha.com",
+    "Phone": "082108210812",
+    "DateOfBirth": "1030213",
+    "Address": "Jalan tlogo",
+    "Image": "./src/main/java/com/systeminventory/assets/imagesCashier/mantap2.png",
+    "Password": "e10adc3949ba59abbe56e057f20f883e"
   }
 }
