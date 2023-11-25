@@ -7,7 +7,8 @@ public class Cashier {
     private String cashierImageSource;
     private String cashierEmail;
     private String cashierPassword;
-    private String keyCashier;
+    private String cashierDateOfBirth;
+    private String cashierAddress;
 
     public String getCashierName() {
         return cashierName;
@@ -49,11 +50,19 @@ public class Cashier {
         this.cashierPassword = cashierPassword;
     }
 
-    public String getKeyCashier() {
-        return keyCashier;
+    public String getCashierDateOfBirth() {
+        return cashierDateOfBirth;
     }
 
-    public void setKeyCashier(String keyCashier) {
-        this.keyCashier = keyCashier;
+    public void setCashierDateOfBirth(String cashierDateOfBirth) {
+        this.cashierDateOfBirth = cashierDateOfBirth;
+    }
+
+    public String getCashierAddress() {
+        return cashierAddress;
+    }
+
+    public void setCashierAddress(String cashierAddress) {
+        this.cashierAddress = cashierAddress;
     }
 }

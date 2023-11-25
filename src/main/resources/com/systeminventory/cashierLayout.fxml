@@ -51,7 +51,7 @@
                   <Font name="Righteous" size="18.0" />
                </font>
             </Button>
-            <TextField layoutX="68.0" layoutY="129.0" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
+            <TextField fx:id="searchTermProfile" layoutX="68.0" layoutY="129.0" onKeyPressed="#searchTermProfileKeyPress" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
                <font>
                   <Font name="Righteous" size="14.0" />
                </font>
@@ -96,7 +96,7 @@
                      </font>
                   </Label>
                   <Line endX="442.5" layoutX="101.0" layoutY="40.0" startX="-100.0" stroke="#fe8a00" />
-                  <ImageView fitHeight="180.0" fitWidth="180.0" layoutX="12.0" layoutY="60.0" pickOnBounds="true">
+                  <ImageView fx:id="profileDetailsVarImage" fitHeight="180.0" fitWidth="180.0" layoutX="12.0" layoutY="60.0" pickOnBounds="true">
                      <image>
                         <Image url="@../../../../../../../../Downloads/jaromir-kalina-ahTs3YRaGDg-unsplash.jpg" />
                      </image>
@@ -156,7 +156,7 @@
                         <Font name="Righteous" size="16.0" />
                      </font>
                   </Label>
-                  <Pane fx:id="paneSelectAProfile" prefHeight="317.0" prefWidth="545.0" style="-fx-background-color: #202a31; -fx-border-color: #fe8a00; -fx-background-radius: 17; -fx-border-radius: 17;" visible="false">
+                  <Pane fx:id="paneSelectAProfile" prefHeight="317.0" prefWidth="545.0" style="-fx-background-color: #202a31; -fx-border-color: #fe8a00; -fx-background-radius: 17; -fx-border-radius: 17;">
                      <children>
                         <Label layoutX="179.0" layoutY="143.0" text="Select a profile..." textFill="#697b7b">
                            <font>
