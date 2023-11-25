@@ -607,24 +607,9 @@ public class productController {
 
         productCardContainer.getChildren().clear();
 
-        deleteProductListener = new DeleteProductListener() {
-            @Override
-            public void clickDeleteProductListener(Product product) {
-                openConfirmDeleteProductDialog(product);
-            }
-        };
-        editProductListener = new EditProductListener() {
-            @Override
-            public void clickEditProductListener(Product product) {
-                openEditProductPopup(product);
-            }
-        };
-        detailsProductListener = new DetailsProductListener() {
-            @Override
-            public void clickDetailsProductListener(Product product) {
-                openDetailsProductPopup(product);
-            }
-        };
+        DeleteProductListener deleteProductListener = this::openConfirmDeleteProductDialog;
+        EditProductListener editProductListener = this::openEditProductPopup;
+        DetailsProductListener detailsProductListener = this::openDetailsProductPopup;
 
         int column = 0;
         int row = 1;
@@ -636,7 +621,6 @@ public class productController {
             VBox cardProduct = fxmlLoader.load();
             productCardController cardController = fxmlLoader.getController();
             cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
-
             if(column == 5){
                 column = 0;
                 ++row;
@@ -644,8 +628,14 @@ public class productController {
 
             productCardContainer.add(cardProduct,column++,row);
             GridPane.setMargin(cardProduct, new Insets(15));
-
         }
+        searchProductNameField.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                handleRealTimeSearch(newValue);
+            } catch (IOException e) {
+                e.printStackTrace(); // Handle the exception appropriately
+            }
+        });
     }
 
     public void openDetailsProductPopup(Product product){
@@ -747,53 +737,81 @@ public class productController {
         confirmDeleteCancelButton.setStyle("-fx-background-color: #ff1474;" + "-fx-background-radius: 13;");
     }
 
-    private void handleEnterKey(KeyEvent keyEvent) throws IOException {
-        if(keyEvent.getCode() == KeyCode.ENTER){
-            productCardContainer.getChildren().clear();
-            deleteProductListener = new DeleteProductListener() {
-                @Override
-                public void clickDeleteProductListener(Product product) {
-                    openConfirmDeleteProductDialog(product);
-                }
-            };
+    //
+    // NEW METHOD SEARCHING (REALTIME SEARCHING)
+    //
+    private void handleRealTimeSearch(String searchQuery) throws IOException {
+        productCardContainer.getChildren().clear();
 
-            editProductListener = new EditProductListener() {
-                @Override
-                public void clickEditProductListener(Product product) {
-                    openEditProductPopup(product);
-                }
-            };
+        deleteProductListener = this::openConfirmDeleteProductDialog;
+        editProductListener = this::openEditProductPopup;
+        detailsProductListener = this::openDetailsProductPopup;
 
-            detailsProductListener = new DetailsProductListener() {
-                @Override
-                public void clickDetailsProductListener(Product product) {
-                    openDetailsProductPopup(product);
-                }
-            };
+        int column = 0;
+        int row = 1;
 
-            int column = 0;
-            int row = 1;
-            List<Product> listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()));
-            for(Product product : listProducts){
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
-                VBox cardProduct = fxmlLoader.load();
-                productCardController cardController = fxmlLoader.getController();
-                cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
-                if(column == 5){
-                    column = 0;
-                    ++row;
-                }
-                productCardContainer.add(cardProduct,column++,row);
-                GridPane.setMargin(cardProduct, new Insets(15));
+        List<Product> listProducts = new ArrayList<>(readProductsFromJson(searchQuery));
 
+        for (Product product : listProducts) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
+            VBox cardProduct = fxmlLoader.load();
+            productCardController cardController = fxmlLoader.getController();
+            cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
+
+            if (column == 5) {
+                column = 0;
+                ++row;
             }
+
+            productCardContainer.add(cardProduct, column++, row);
+            GridPane.setMargin(cardProduct, new Insets(15));
         }
     }
 
+//
+//  OLD METHOD SEARCHING (NOT REALTIME SEARCHING)
+//
+//    private void handleEnterKey(KeyEvent keyEvent) throws IOException {
+//        productCardContainer.getChildren().clear();
+//
+//        deleteProductListener = this::openConfirmDeleteProductDialog;
+//        editProductListener = this::openEditProductPopup;
+//        detailsProductListener = this::openDetailsProductPopup;
+//
+//        int column = 0;
+//        int row = 1;
+//        List<Product> listProducts;
+//
+//        if (keyEvent.getCode() == KeyCode.ENTER) {
+//            listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()));
+//        } else if (keyEvent.getCode() == KeyCode.BACK_SPACE && searchProductNameField.getText().isEmpty()) {
+//            listProducts = new ArrayList<>(readProductsFromJson(""));
+//        } else {
+//            listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()keyEvent.getCharacter()));
+//        }
+//
+//        for (Product product : listProducts) {
+//            FXMLLoader fxmlLoader = new FXMLLoader();
+//            fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
+//            VBox cardProduct = fxmlLoader.load();
+//            productCardController cardController = fxmlLoader.getController();
+//            cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
+//
+//            if (column == 5) {
+//                column = 0;
+//                ++row;
+//            }
+//
+//            productCardContainer.add(cardProduct, column++, row);
+//            GridPane.setMargin(cardProduct, new Insets(15));
+//        }
+//    }
+
     @FXML
     private void searchTermKeyPress(KeyEvent keyEvent) throws IOException {
-        handleEnterKey(keyEvent);
+        String searchText = searchProductNameField.getText();
+        handleRealTimeSearch(searchText);
     }
 
     @FXML

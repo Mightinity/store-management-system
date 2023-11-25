@@ -14,13 +14,5 @@
     "SellingPrice": 123123,
     "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
     "Stock": 123
-  },
-  "product3": {
-    "idProduct": "95JJ8SL5KK3R",
-    "Title": "coba ini",
-    "OriginalPrice": 1000,
-    "SellingPrice": 5000,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/DHT8KXJRDDOO.png",
-    "Stock": 123
   }
 }
