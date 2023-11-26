@@ -839,7 +839,7 @@ public class productController {
 
     @FXML
     private void downloadBarcodeDetailsProductMouseClick(MouseEvent mouseEvent) throws InterruptedException {
-        String imageUrl = "https://barcodeapi.org/api/auto/"+idProductDetailsProduct.getText();
+        String imageUrl = "https://barcodeapi.org/api/auto/"+idProductDetailsProduct.getText(); // change code128 -> auto
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Barcode Image");
         FileChooser.ExtensionFilter extFilter =
