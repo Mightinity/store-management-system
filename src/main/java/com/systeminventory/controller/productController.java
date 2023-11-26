@@ -561,7 +561,7 @@ public class productController {
         productCardContainer.getChildren().clear();
         List<Product> listProducts = new ArrayList<>();
 
-        Gson gson = new Gson();
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
         String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
 
@@ -578,16 +578,15 @@ public class productController {
 
                 if (searchTerm.isEmpty() || searchText.toLowerCase().contains(searchTerm.toLowerCase())){
                     Product product = new Product();
-                    product.setProductName(productData.get("Title").getAsString());
-                    product.setImageSource(productData.get("Image").getAsString());
-                    product.setKeyProduct(productName); // productname == object keyproduct on json
-
                     int sellingPrice = productData.get("SellingPrice").getAsInt(); // Mengambil nilai SellingPrice sebagai integer
                     NumberFormat formatNumber = NumberFormat.getNumberInstance(); // Format angka tanpa simbol mata uang
                     String formattedSellingPrice = formatNumber.format(sellingPrice);
+
+                    product.setKeyProduct(productName); // productname == object keyproduct on json
+                    product.setProductName(productData.get("Title").getAsString());
+                    product.setImageSource(productData.get("Image").getAsString());
                     product.setProductSellingPrice(formattedSellingPrice); // Set nilai SellingPrice yang telah diformat pada objek product
                     product.setProductOriginalPrice(productData.get("OriginalPrice").getAsString());
-
                     product.setProductStock(productData.get("Stock").getAsString());
                     product.setIdProduct(productData.get("idProduct").getAsString());
 
@@ -639,7 +638,7 @@ public class productController {
     }
 
     public void openDetailsProductPopup(Product product){
-        String apiBarcodePath = "https://barcodeapi.org/api/auto/";
+        String apiBarcodePath = "https://barcodeapi.org/api/code128";
         backgroundPopup.setVisible(true);
         detailsProductPopup.setVisible(true);
         varProductNameDetailsProduct.setText(product.getProductName());
@@ -840,7 +839,7 @@ public class productController {
 
     @FXML
     private void downloadBarcodeDetailsProductMouseClick(MouseEvent mouseEvent) throws InterruptedException {
-        String imageUrl = "https://barcodeapi.org/api/auto/"+idProductDetailsProduct.getText();
+        String imageUrl = "https://barcodeapi.org/api/code128"+idProductDetailsProduct.getText();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Barcode Image");
         FileChooser.ExtensionFilter extFilter =

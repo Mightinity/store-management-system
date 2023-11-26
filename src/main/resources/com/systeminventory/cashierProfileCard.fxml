@@ -37,7 +37,7 @@
                   <Font name="Righteous" size="18.0" />
                </font>
             </Label>
-            <Pane layoutX="463.0" layoutY="120.0" prefHeight="22.0" prefWidth="22.0" style="-fx-background-color: #ff1474; -fx-background-radius: 5;">
+            <Pane fx:id="deleteButtonProfileCard" layoutX="463.0" layoutY="120.0" onMouseClicked="#deleteButtonProfileCardMouseClick" onMouseEntered="#deleteButtonProfileCardMouseEnter" onMouseExited="#deleteButtonProfileCardMouseExit" prefHeight="22.0" prefWidth="22.0" style="-fx-background-color: #ff1474; -fx-background-radius: 5;">
                <children>
                   <ImageView fitHeight="14.0" fitWidth="14.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -46,7 +46,7 @@
                   </ImageView>
                </children>
             </Pane>
-            <Pane layoutX="431.0" layoutY="120.0" prefHeight="22.0" prefWidth="22.0" style="-fx-background-color: #00e074; -fx-background-radius: 5;">
+            <Pane fx:id="editButtonProfileCard" layoutX="431.0" layoutY="120.0" onMouseClicked="#editButtonProfileCardMouseClick" onMouseEntered="#editButtonProfileCardMouseEnter" onMouseExited="#editButtonProfileCardMouseExit" prefHeight="22.0" prefWidth="22.0" style="-fx-background-color: #00e074; -fx-background-radius: 5;">
                <children>
                   <ImageView fitHeight="14.0" fitWidth="14.0" layoutX="4.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true">
                      <image>
