@@ -638,7 +638,7 @@ public class productController {
     }
 
     public void openDetailsProductPopup(Product product){
-        String apiBarcodePath = "https://barcodeapi.org/api/code128";
+        String apiBarcodePath = "https://barcodeapi.org/api/auto/";
         backgroundPopup.setVisible(true);
         detailsProductPopup.setVisible(true);
         varProductNameDetailsProduct.setText(product.getProductName());
@@ -839,7 +839,7 @@ public class productController {
 
     @FXML
     private void downloadBarcodeDetailsProductMouseClick(MouseEvent mouseEvent) throws InterruptedException {
-        String imageUrl = "https://barcodeapi.org/api/code128"+idProductDetailsProduct.getText();
+        String imageUrl = "https://barcodeapi.org/api/auto/"+idProductDetailsProduct.getText();
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Barcode Image");
         FileChooser.ExtensionFilter extFilter =
