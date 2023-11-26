@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.systeminventory.App;
+import com.systeminventory.interfaces.DeleteCashierListener;
 import com.systeminventory.interfaces.ProfileDetailsListener;
 import com.systeminventory.model.Cashier;
 import javafx.event.ActionEvent;
@@ -100,10 +101,22 @@ public class cashierController {
     public Pane paneSelectAProfile;
 
     private ProfileDetailsListener profileDetailsListener;
+    private DeleteCashierListener deleteCashierListener;
+
     @FXML
     private ImageView profileDetailsVarImage;
     @FXML
     private TextField searchTermProfile;
+    @FXML
+    private Pane confirmDeleteProfilePane;
+    @FXML
+    private Label confirmDeleteVariableProfileName;
+    @FXML
+    private Button confirmDeleteDeleteButtonProfile;
+    @FXML
+    private Button confirmDeleteCancelButtonProfile;
+    @FXML
+    private Label confirmDeleteKeyProfile;
 
     private static String hashMD5(String input) {
         StringBuilder result = new StringBuilder();
@@ -373,6 +386,57 @@ public class cashierController {
         addProfileCancelButton.setStyle("-fx-background-color: #ff1474;" + "-fx-background-radius: 13");
     }
 
+    public void deleteProfileData(String keyProfile){
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
+
+        try (InputStream inputStream = new FileInputStream(jsonPath)){
+            InputStreamReader reader = new InputStreamReader(inputStream);
+            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+            jsonObject.remove(keyProfile);
+            try (Writer writer = new FileWriter(jsonPath)){
+                gson.toJson(jsonObject, writer);
+            }
+            App.loadCashierScene();
+        } catch (IOException err){
+            err.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void onConfirmDeleteDeleteButtonProfileClick(ActionEvent event) {
+        deleteProfileData(confirmDeleteKeyProfile.getText());
+        confirmDeleteVariableProfileName.setText("");
+        confirmDeleteKeyProfile.setText("");
+        confirmDeleteProfilePane.setVisible(false);
+        backgroundPopup.setVisible(false);
+    }
+    @FXML
+    private void onConfirmDeleteDeleteButtonProfileMouseEnter(MouseEvent event) {
+        confirmDeleteDeleteButtonProfile.setStyle("-fx-background-color: #e0005c;"+"-fx-background-radius: 13;");
+    }
+    @FXML
+    private void onConfirmDeleteDeleteButtonProfileMouseExit(MouseEvent event) {
+        confirmDeleteDeleteButtonProfile.setStyle("-fx-background-color: #ff1474;"+"-fx-background-radius: 13;");
+    }
+    @FXML
+    private void onConfirmDeleteCancelButtonProfileMouseEnter(MouseEvent event) {
+        confirmDeleteCancelButtonProfile.setStyle("-fx-background-color: #19a6b7;" + "-fx-background-radius: 13;");
+    }
+    @FXML
+    private void onConfirmDeleteCancelButtonProfileMouseExit(MouseEvent mouseEvent) {
+        confirmDeleteCancelButtonProfile.setStyle("-fx-background-color: #1ecbe1;" + "-fx-background-radius: 13;");
+    }
+    @FXML
+    private void onConfirmDeleteCancelButtonProfileClick(ActionEvent event) {
+        backgroundPopup.setVisible(false);
+        confirmDeleteProfilePane.setVisible(false);
+        confirmDeleteKeyProfile.setText("");
+        confirmDeleteVariableProfileName.setText("");
+    }
+
 //    public void setDataCashierProfileDetails(String keyProfile){
 //        Gson gson = new GsonBuilder().setPrettyPrinting().create();
 //
@@ -418,9 +482,9 @@ public class cashierController {
                     cashier.setCashierNoPhone(cashierData.get("Phone").getAsString());
                     cashier.setCashierImageSource(cashierData.get("Image").getAsString());
                     cashier.setCashierEmail(cashierData.get("Email").getAsString());
-
                     cashier.setCashierAddress(cashierData.get("Address").getAsString());
                     cashier.setCashierDateOfBirth(cashierData.get("DateOfBirth").getAsString());
+                    cashier.setKeyCashier(profileName);
 
                     listCashier.add(cashier);
                 }
@@ -430,6 +494,14 @@ public class cashierController {
             e.printStackTrace();
         }
         return listCashier;
+    }
+
+    private void openConfirmDeleteProfileDialog(Cashier cashier){
+        backgroundPopup.setVisible(true);
+        confirmDeleteProfilePane.setVisible(true);
+        confirmDeleteKeyProfile.setText(cashier.getKeyCashier());
+        confirmDeleteVariableProfileName.setText(cashier.getCashierName()+"?");
+
     }
 
     private void setChosenProfile(Cashier cashier){
@@ -461,7 +533,13 @@ public class cashierController {
                 setChosenProfile(cashier);
             }
         };
-//        }
+
+        deleteCashierListener = new DeleteCashierListener() {
+            @Override
+            public void clickDeleteCashierListener(Cashier cashier) {
+                openConfirmDeleteProfileDialog(cashier);
+            }
+        };
 
         int column = 0;
         int row = 1;
@@ -471,7 +549,7 @@ public class cashierController {
             fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
             VBox cardProfile = fxmlLoader.load();
             cashierProfileCardController cardController = fxmlLoader.getController();
-            cardController.setData(cashier, profileDetailsListener);
+            cardController.setData(cashier, profileDetailsListener, deleteCashierListener);
 
             profileCardContainer.add(cardProfile,column,row++);
             GridPane.setMargin(cardProfile, new Insets(15));
@@ -491,6 +569,13 @@ public class cashierController {
                     setChosenProfile(cashier);
                 }
             };
+
+            deleteCashierListener = new DeleteCashierListener() {
+                @Override
+                public void clickDeleteCashierListener(Cashier cashier) {
+                    openConfirmDeleteProfileDialog(cashier);
+                }
+            };
             int column = 0;
             int row = 1;
             for(Cashier cashier : listCashier){
@@ -498,7 +583,7 @@ public class cashierController {
                 fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
                 VBox cardProfile = fxmlLoader.load();
                 cashierProfileCardController cardController = fxmlLoader.getController();
-                cardController.setData(cashier, profileDetailsListener);
+                cardController.setData(cashier, profileDetailsListener, deleteCashierListener);
 
                 profileCardContainer.add(cardProfile,column,row++);
                 GridPane.setMargin(cardProfile, new Insets(15));
@@ -511,5 +596,4 @@ public class cashierController {
     private void searchTermProfileKeyPress(KeyEvent keyEvent) throws IOException{
         handleEnterKeyProfileSearch(keyEvent);
     }
-
 }

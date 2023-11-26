@@ -10,6 +10,8 @@ public class Cashier {
     private String cashierDateOfBirth;
     private String cashierAddress;
 
+    private String keyCashier;
+
     public String getCashierName() {
         return cashierName;
     }
@@ -64,5 +66,12 @@ public class Cashier {
 
     public void setCashierAddress(String cashierAddress) {
         this.cashierAddress = cashierAddress;
+    }
+    public String getKeyCashier() {
+        return keyCashier;
+    }
+
+    public void setKeyCashier(String keyCashier) {
+        this.keyCashier = keyCashier;
     }
 }

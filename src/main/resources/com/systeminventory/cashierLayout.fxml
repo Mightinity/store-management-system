@@ -274,5 +274,30 @@
             </Pane>
          </children>
       </Pane>
+      <Pane fx:id="confirmDeleteProfilePane" layoutX="478.0" layoutY="324.0" prefHeight="145.0" prefWidth="365.0" style="-fx-background-color: #2b3848; -fx-background-radius: 15;" visible="false">
+         <children>
+            <Label layoutX="16.0" layoutY="25.0" text="Apakah yakin ingin menghapus profile" textFill="#fe8a00">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="confirmDeleteVariableProfileName" alignment="TOP_CENTER" layoutX="14.0" layoutY="48.0" prefHeight="23.0" prefWidth="333.0" text="varNamaProfile?" textAlignment="CENTER" textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="18.0" />
+               </font>
+            </Label>
+            <Button fx:id="confirmDeleteDeleteButtonProfile" layoutX="189.0" layoutY="110.0" mnemonicParsing="false" onAction="#onConfirmDeleteDeleteButtonProfileClick" onMouseEntered="#onConfirmDeleteDeleteButtonProfileMouseEnter" onMouseExited="#onConfirmDeleteDeleteButtonProfileMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #00a6ff; -fx-background-radius: 13;" text="Delete" textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="13.0" />
+               </font>
+            </Button>
+            <Button fx:id="confirmDeleteCancelButtonProfile" layoutX="103.0" layoutY="110.0" mnemonicParsing="false" onAction="#onConfirmDeleteCancelButtonProfileClick" onMouseEntered="#onConfirmDeleteCancelButtonProfileMouseEnter" onMouseExited="#onConfirmDeleteCancelButtonProfileMouseExit" prefHeight="26.0" prefWidth="76.0" style="-fx-background-color: #ff1474; -fx-background-radius: 13;" text="Cancel" textFill="#f6f6f6">
+               <font>
+                  <Font name="Righteous" size="13.0" />
+               </font>
+            </Button>
+            <Label fx:id="confirmDeleteKeyProfile" layoutX="1.0" layoutY="73.0" prefHeight="17.0" prefWidth="363.0" visible="false" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
