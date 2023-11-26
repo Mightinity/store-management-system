@@ -6,13 +6,5 @@
     "SellingPrice": 1000000,
     "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
     "Stock": 10
-  },
-  "product2": {
-    "idProduct": "VF26B2738BXS",
-    "Title": "Sepatu in ibos",
-    "OriginalPrice": 123123,
-    "SellingPrice": 123123,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
-    "Stock": 123
   }
 }
