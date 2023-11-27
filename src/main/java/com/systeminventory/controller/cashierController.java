@@ -4,10 +4,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.systeminventory.App;
-import com.systeminventory.interfaces.DeleteCashierListener;
-import com.systeminventory.interfaces.EditCashierListener;
-import com.systeminventory.interfaces.ProfileDetailsListener;
+import com.systeminventory.interfaces.*;
 import com.systeminventory.model.Cashier;
+import com.systeminventory.model.Product;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -17,7 +16,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -482,27 +480,7 @@ public class cashierController {
         confirmDeleteVariableProfileName.setText("");
     }
 
-//    public void setDataCashierProfileDetails(String keyProfile){
-//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-//
-//        String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
-//
-//        try (InputStream inputStream = new FileInputStream(jsonPath)){
-//            InputStreamReader reader = new InputStreamReader(inputStream);
-//            JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-//            JsonObject cashierData = jsonObject.getAsJsonObject(keyProfile);
-//            System.out.println(cashierData);
-//            profileDetailsVarFullName.setText(cashierData.get("Name").getAsString());
-//            profileDetailsVarPhone.setText(cashierData.get("Phone").getAsString());
-//            profileDetailsVarDateOfBirth.setText(cashierData.get("DateOfBirth").getAsString());
-//            profileDetailsVarEmail.setText(cashierData.get("Email").getAsString());
-//            profileDetailsVarAddress.setText(cashierData.get("Address").getAsString());
-//        } catch (IOException err){
-//            err.printStackTrace();
-//        }
-//    }
-
-    private List<Cashier> readProfileFromJson(String searchTerm) {
+    private List<Cashier> readProfilesFromJson(String searchTerm) {
         profileCardContainer.getChildren().clear();
         List<Cashier> listCashier = new ArrayList<>();
 
@@ -588,31 +566,14 @@ public class cashierController {
     @FXML
     public void initialize() throws IOException {
 
-        List<Cashier> listCashier = new ArrayList<>(readProfileFromJson(""));
+        List<Cashier> listCashier = new ArrayList<>(readProfilesFromJson(""));
         profileCardContainer.getChildren().clear();
 
 //        if (!listCashier.isEmpty()){
 //            setChosenProfile(listCashier.get(0));
-        profileDetailsListener = new ProfileDetailsListener() {
-            @Override
-            public void clickProfileDetailsListener(Cashier cashier) {
-                setChosenProfile(cashier);
-            }
-        };
-
-        deleteCashierListener = new DeleteCashierListener() {
-            @Override
-            public void clickDeleteCashierListener(Cashier cashier) {
-                openConfirmDeleteProfileDialog(cashier);
-            }
-        };
-
-        editCashierListener = new EditCashierListener() {
-            @Override
-            public void clickEditCashierListener(Cashier cashier) {
-                openEditProfilePopup(cashier);
-            }
-        };
+        ProfileDetailsListener profileDetailsListener = this::setChosenProfile;
+        DeleteCashierListener deleteCashierListener = this::openConfirmDeleteProfileDialog;
+        EditCashierListener editCashierListener = this::openEditProfilePopup;;
 
         int column = 0;
         int row = 1;
@@ -628,53 +589,65 @@ public class cashierController {
             GridPane.setMargin(cardProfile, new Insets(15));
 
         }
+        searchTermProfile.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                handleRealTimeSearch(newValue);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 
-    private void handleEnterKeyProfileSearch(KeyEvent keyEvent) throws IOException{
-        if(keyEvent.getCode() == KeyCode.ENTER){
-            List<Cashier> listCashier = new ArrayList<>(readProfileFromJson(searchTermProfile.getText()));
-            profileCardContainer.getChildren().clear();
+    private void handleRealTimeSearch(String searchQuery) throws IOException {
+        profileCardContainer.getChildren().clear();
 
-            profileDetailsListener = new ProfileDetailsListener() {
-                @Override
-                public void clickProfileDetailsListener(Cashier cashier) {
-                    setChosenProfile(cashier);
-                }
-            };
+        ProfileDetailsListener profileDetailsListener = this::setChosenProfile;
+        DeleteCashierListener deleteCashierListener = this::openConfirmDeleteProfileDialog;
+        EditCashierListener editCashierListener = this::openEditProfilePopup;
 
-            deleteCashierListener = new DeleteCashierListener() {
-                @Override
-                public void clickDeleteCashierListener(Cashier cashier) {
-                    openConfirmDeleteProfileDialog(cashier);
-                }
-            };
+        int column = 0;
+        int row = 1;
 
-            editCashierListener = new EditCashierListener() {
-                @Override
-                public void clickEditCashierListener(Cashier cashier) {
-                    openEditProfilePopup(cashier);
-                }
-            };
+        List<Cashier> listCashier = new ArrayList<>(readProfilesFromJson(searchQuery));
 
-            int column = 0;
-            int row = 1;
-            for(Cashier cashier : listCashier){
-                FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
-                VBox cardProfile = fxmlLoader.load();
-                cashierProfileCardController cardController = fxmlLoader.getController();
-                cardController.setData(cashier, profileDetailsListener, deleteCashierListener, editCashierListener);
+        for (Cashier cashier : listCashier) {
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
+            VBox cardProfile = fxmlLoader.load();
+            cashierProfileCardController cardController = fxmlLoader.getController();
+            cardController.setData(cashier, profileDetailsListener, deleteCashierListener, editCashierListener);
 
-                profileCardContainer.add(cardProfile,column,row++);
-                GridPane.setMargin(cardProfile, new Insets(15));
-
-            }
+            profileCardContainer.add(cardProfile, column, row++);
+            GridPane.setMargin(cardProfile, new Insets(15));
         }
     }
 
-    @FXML
-    private void searchTermProfileKeyPress(KeyEvent keyEvent) throws IOException{
-        handleEnterKeyProfileSearch(keyEvent);
-    }
+
+// OLD METHOD SEARCHING ( NOT REALTIME)
+
+//    private void handleEnterKeyProfileSearch(KeyEvent keyEvent) throws IOException{
+//        if(keyEvent.getCode() == KeyCode.ENTER){
+//            List<Cashier> listCashier = new ArrayList<>(readProfileFromJson(searchTermProfile.getText()));
+//            profileCardContainer.getChildren().clear();
+//
+//            ProfileDetailsListener profileDetailsListener = this::setChosenProfile;
+//            DeleteCashierListener deleteCashierListener = this::openConfirmDeleteProfileDialog;
+//            EditCashierListener editCashierListener = this::openEditProfilePopup;;
+//
+//            int column = 0;
+//            int row = 1;
+//            for(Cashier cashier : listCashier){
+//                FXMLLoader fxmlLoader = new FXMLLoader();
+//                fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
+//                VBox cardProfile = fxmlLoader.load();
+//                cashierProfileCardController cardController = fxmlLoader.getController();
+//                cardController.setData(cashier, profileDetailsListener, deleteCashierListener, editCashierListener);
+//
+//                profileCardContainer.add(cardProfile,column,row++);
+//                GridPane.setMargin(cardProfile, new Insets(15));
+//
+//            }
+//        }
+//    }
 }
