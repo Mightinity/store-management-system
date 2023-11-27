@@ -32,7 +32,7 @@ public class App extends Application {
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Login - Store Inventory System");
         primaryStage.setResizable(false);
-        primaryStage.initStyle(StageStyle.UNDECORATED);
+        primaryStage.initStyle(StageStyle.UTILITY);
         primaryStage.setScene(scene);
         primaryStage.show();
     }

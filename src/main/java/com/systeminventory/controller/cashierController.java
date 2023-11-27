@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.systeminventory.App;
 import com.systeminventory.interfaces.DeleteCashierListener;
+import com.systeminventory.interfaces.EditCashierListener;
 import com.systeminventory.interfaces.ProfileDetailsListener;
 import com.systeminventory.model.Cashier;
 import javafx.event.ActionEvent;
@@ -102,6 +103,7 @@ public class cashierController {
 
     private ProfileDetailsListener profileDetailsListener;
     private DeleteCashierListener deleteCashierListener;
+    private EditCashierListener editCashierListener;
 
     @FXML
     private ImageView profileDetailsVarImage;
@@ -117,6 +119,10 @@ public class cashierController {
     private Button confirmDeleteCancelButtonProfile;
     @FXML
     private Label confirmDeleteKeyProfile;
+    @FXML
+    private Label keyProfileOnPopup;
+    @FXML
+    private Label addProfileLabel;
 
     private static String hashMD5(String input) {
         StringBuilder result = new StringBuilder();
@@ -252,7 +258,9 @@ public class cashierController {
 
     @FXML
     void onButtonAddProfileClick(ActionEvent event) {
+        addProfileLabel.setText("Add Profile");
         addProfileNameField.setText("");
+        addProfileNameField.setDisable(false);
         addProfileEmailField.setText("");
         addProfileNoPhoneField.setText("");
         addProfileDateOfBirthField.setText("");
@@ -270,94 +278,131 @@ public class cashierController {
 
     @FXML
     private void onAddProfileApplyButtonClick(ActionEvent actionEvent) throws IOException {
+        String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
+        String imageProfilePath = "./src/main/java/com/systeminventory/assets/imagesCashier/";
         setLabelPropertiesTextFillWhite(addProfileNameLabel, "Name:");
         setLabelPropertiesTextFillWhite(addProfileEmailLabel, "Email:");
         setLabelPropertiesTextFillWhite(addProfileNoPhoneLabel, "No phone:");
         setLabelPropertiesTextFillWhite(addProfileDateOfBirthLabel, "Date of birth:");
         setLabelPropertiesTextFillWhite(addProfileAddressLabel, "Address:");
         setLabelPropertiesTextFillWhite(addProfileProfilePictureLabel, "Profile picture:");
-        int status = 0;
-        if (addProfileNameField.getText().isEmpty()){
-            addProfileNameLabel.setText("Name: (Required)");
-            addProfileNameLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProfileEmailField.getText().isEmpty()){
-            addProfileEmailLabel.setText("Email: (Required)");
-            addProfileEmailLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProfileNoPhoneField.getText().isEmpty()){
-            addProfileNoPhoneLabel.setText("No phone: (Required)");
-            addProfileNoPhoneLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProfileDateOfBirthField.getText().isEmpty()){
-            addProfileDateOfBirthLabel.setText("Date of birth: (Required)");
-            addProfileDateOfBirthLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProfileAddressField.getText().isEmpty()){
-            addProfileAddressLabel.setText("Address: (Required)");
-            addProfileAddressLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (addProfileProfileImagePathLabel.getText().isEmpty()){
-            addProfileProfilePictureLabel.setText("Profile picture: (Required)");
-            addProfileProfilePictureLabel.setStyle("-fx-text-fill: #ff1474;");
-            status++;
-        }
-        if (status == 0){
-            Gson gson = new GsonBuilder().setPrettyPrinting().create();
-
-            String jsonPath = "./src/main/java/com/systeminventory/assets/json/cashierList.json";
-            String imageProfilePath = "./src/main/java/com/systeminventory/assets/imagesCashier/";
-
-            try (InputStream inputStream = new FileInputStream(jsonPath)){
-                InputStreamReader reader = new InputStreamReader(inputStream);
-                JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
-                List<String> profileKeys = new ArrayList<>(jsonObject.keySet());
-//                Collections.sort(profileKeys);
-                int nextKeyNumber = profileKeys.size()+1;
-                String newProfileKey = "cashier"+nextKeyNumber;
-
-                while (profileKeys.contains(newProfileKey)){
-                    nextKeyNumber++;
-                    newProfileKey = "product"+nextKeyNumber;
+        TextField[] fields = { addProfileNameField, addProfileEmailField, addProfileNoPhoneField, addProfileDateOfBirthField, addProfileAddressField };
+        Label[] labels = { addProfileNameLabel, addProfileEmailLabel, addProfileNoPhoneLabel, addProfileDateOfBirthLabel, addProfileAddressLabel };
+        if (addProfileLabel.getText().equals("Add Profile")){ // ADD PROFILE
+            int status = 0;
+            for (int i = 0; i < fields.length; i++){
+                TextField field = fields[i];
+                Label label = labels[i];
+                if (field.getText().isEmpty()){
+                    label.setText(label.getText()+" (Required)");
+                    label.setStyle("-fx-text-fill: #ff1474;");
+                    status++;
                 }
+            }
+            if (addProfileProfileImagePathLabel.getText().isEmpty()){
+                addProfileProfilePictureLabel.setText("Profile picture: (Required)");
+                addProfileProfilePictureLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (status == 0){
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-                JsonObject newProfileData = new JsonObject();
+                try (InputStream inputStream = new FileInputStream(jsonPath)){
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+                    JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
-                String imageFileName = addProfileProfileImagePathLabel.getText();
-                Path sourceImagePath = Paths.get(addProfileProfileImageFullPathLabel.getText());
-                Path targetImagePath = Paths.get(imageProfilePath, imageFileName);
+                    List<String> profileKeys = new ArrayList<>(jsonObject.keySet());
+                    //Collections.sort(profileKeys);
+                    int nextKeyNumber = profileKeys.size()+1;
+                    String newProfileKey = "cashier"+nextKeyNumber;
 
-                newProfileData.addProperty("Name", addProfileNameField.getText());
-                newProfileData.addProperty("Email", addProfileEmailField.getText());
-                newProfileData.addProperty("Phone", addProfileNoPhoneField.getText());
-                newProfileData.addProperty("DateOfBirth", addProfileDateOfBirthField.getText());
-                newProfileData.addProperty("Address", addProfileAddressField.getText());
-                newProfileData.addProperty("Image", imageProfilePath+imageFileName);
-                newProfileData.addProperty("Password", hashMD5("123456"));
+                    while (profileKeys.contains(newProfileKey)){
+                        nextKeyNumber++;
+                        newProfileKey = "cashier"+nextKeyNumber;
+                    }
 
-                try{
-                    Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                    JsonObject newProfileData = new JsonObject();
+
+                    String imageFileName = addProfileProfileImagePathLabel.getText();
+                    Path sourceImagePath = Paths.get(addProfileProfileImageFullPathLabel.getText());
+                    Path targetImagePath = Paths.get(imageProfilePath, imageFileName);
+                    newProfileData.addProperty("Name", addProfileNameField.getText());
+                    newProfileData.addProperty("Email", addProfileEmailField.getText());
+                    newProfileData.addProperty("Phone", addProfileNoPhoneField.getText());
+                    newProfileData.addProperty("DateOfBirth", addProfileDateOfBirthField.getText());
+                    newProfileData.addProperty("Address", addProfileAddressField.getText());
+                    newProfileData.addProperty("Image", imageProfilePath+imageFileName);
+                    newProfileData.addProperty("Password", hashMD5("123456"));
+                    try{
+                        Files.copy(sourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                    } catch (IOException err){
+                        err.printStackTrace();
+                    }
+                    jsonObject.add(newProfileKey, newProfileData);
+                    try (Writer writer = new FileWriter(jsonPath)){
+                        gson.toJson(jsonObject, writer);
+                    }
                 } catch (IOException err){
                     err.printStackTrace();
                 }
-
-                jsonObject.add(newProfileKey, newProfileData);
-
-                try (Writer writer = new FileWriter(jsonPath)){
-                    gson.toJson(jsonObject, writer);
-                }
-
-            } catch (IOException err){
-                err.printStackTrace();
             }
-            App.loadCashierScene();
+        } else if (addProfileLabel.getText().equals("Edit Profile")){ // EDIT PROFILE
+            int status = 0;
+            for (int i = 0; i < fields.length; i++){
+                TextField field = fields[i];
+                Label label = labels[i];
+
+                if (field.getText().isEmpty()){
+                    label.setText(label.getText()+" (Required)");
+                    label.setStyle("-fx-text-fill: #ff1474;");
+                    status++;
+                }
+            }
+            if (addProfileProfileImagePathLabel.getText().isEmpty()){
+                addProfileProfilePictureLabel.setText("Profile picture: (Required)");
+                addProfileProfilePictureLabel.setStyle("-fx-text-fill: #ff1474;");
+                status++;
+            }
+            if (status == 0){
+                Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+                try (InputStream inputStream = new FileInputStream(jsonPath)) {
+                    InputStreamReader reader = new InputStreamReader(inputStream);
+                    JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
+
+                    JsonObject profileKey = jsonObject.getAsJsonObject(keyProfileOnPopup.getText());
+
+                    if (keyProfileOnPopup != null){
+                        String imageFileName = addProfileProfileImagePathLabel.getText();
+                        if(!(imageProfilePath+imageFileName).equals(profileKey.get("Image").getAsString())){
+                            Path newSourceImagePath = Paths.get(addProfileProfileImageFullPathLabel.getText());
+                            Path targetImagePath = Paths.get(imageProfilePath, imageFileName);
+
+                            try {
+                                Files.copy(newSourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
+                            } catch (IOException err){
+                                err.printStackTrace();
+                            }
+                        }
+
+                        profileKey.addProperty("Name", addProfileNameField.getText());
+                        profileKey.addProperty("Email", addProfileEmailField.getText());
+                        profileKey.addProperty("Phone", addProfileNoPhoneField.getText());
+                        profileKey.addProperty("DateOfBirth", addProfileDateOfBirthField.getText());
+                        profileKey.addProperty("Address", addProfileAddressField.getText());
+                        profileKey.addProperty("Image", imageProfilePath+imageFileName);
+                        profileKey.addProperty("Password", profileKey.get("Password").getAsString());
+
+                        try (Writer writer = new FileWriter(jsonPath)){
+                            gson.toJson(jsonObject, writer);
+                        }
+                    }
+                } catch (IOException err){
+                    err.printStackTrace();
+                }
+            }
         }
+        App.loadCashierScene();
     }
 
     @FXML
@@ -496,6 +541,27 @@ public class cashierController {
         return listCashier;
     }
 
+    private void openEditProfilePopup(Cashier cashier){
+        backgroundPopup.setVisible(true);
+        addProfilePopup.setVisible(true);
+        setLabelPropertiesTextFillWhite(addProfileNameLabel, "Name:");
+        setLabelPropertiesTextFillWhite(addProfileEmailLabel, "Email:");
+        setLabelPropertiesTextFillWhite(addProfileNoPhoneLabel, "No phone:");
+        setLabelPropertiesTextFillWhite(addProfileDateOfBirthLabel, "Date of birth:");
+        setLabelPropertiesTextFillWhite(addProfileAddressLabel, "Address:");
+        setLabelPropertiesTextFillWhite(addProfileProfilePictureLabel, "Profile picture:");
+        addProfileLabel.setText("Edit Profile");
+        keyProfileOnPopup.setText(cashier.getKeyCashier());
+        addProfileNameField.setText(cashier.getCashierName());
+        addProfileNameField.setDisable(true);
+        addProfileEmailField.setText(cashier.getCashierEmail());
+        addProfileNoPhoneField.setText(cashier.getCashierNoPhone());
+        addProfileDateOfBirthField.setText(cashier.getCashierNoPhone());
+        addProfileAddressField.setText(cashier.getCashierAddress());
+        addProfileProfileImagePathLabel.setText(cashier.getCashierImageSource().substring(57));
+        addProfileProfileImageFullPathLabel.setText(cashier.getCashierImageSource());
+    }
+
     private void openConfirmDeleteProfileDialog(Cashier cashier){
         backgroundPopup.setVisible(true);
         confirmDeleteProfilePane.setVisible(true);
@@ -541,6 +607,13 @@ public class cashierController {
             }
         };
 
+        editCashierListener = new EditCashierListener() {
+            @Override
+            public void clickEditCashierListener(Cashier cashier) {
+                openEditProfilePopup(cashier);
+            }
+        };
+
         int column = 0;
         int row = 1;
 
@@ -549,7 +622,7 @@ public class cashierController {
             fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
             VBox cardProfile = fxmlLoader.load();
             cashierProfileCardController cardController = fxmlLoader.getController();
-            cardController.setData(cashier, profileDetailsListener, deleteCashierListener);
+            cardController.setData(cashier, profileDetailsListener, deleteCashierListener, editCashierListener);
 
             profileCardContainer.add(cardProfile,column,row++);
             GridPane.setMargin(cardProfile, new Insets(15));
@@ -576,6 +649,14 @@ public class cashierController {
                     openConfirmDeleteProfileDialog(cashier);
                 }
             };
+
+            editCashierListener = new EditCashierListener() {
+                @Override
+                public void clickEditCashierListener(Cashier cashier) {
+                    openEditProfilePopup(cashier);
+                }
+            };
+
             int column = 0;
             int row = 1;
             for(Cashier cashier : listCashier){
@@ -583,7 +664,7 @@ public class cashierController {
                 fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
                 VBox cardProfile = fxmlLoader.load();
                 cashierProfileCardController cardController = fxmlLoader.getController();
-                cardController.setData(cashier, profileDetailsListener, deleteCashierListener);
+                cardController.setData(cashier, profileDetailsListener, deleteCashierListener, editCashierListener);
 
                 profileCardContainer.add(cardProfile,column,row++);
                 GridPane.setMargin(cardProfile, new Insets(15));

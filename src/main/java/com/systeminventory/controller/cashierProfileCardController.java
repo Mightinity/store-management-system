@@ -1,6 +1,7 @@
 package com.systeminventory.controller;
 
 import com.systeminventory.interfaces.DeleteCashierListener;
+import com.systeminventory.interfaces.EditCashierListener;
 import com.systeminventory.interfaces.ProfileDetailsListener;
 import com.systeminventory.model.Cashier;
 import javafx.fxml.FXML;
@@ -29,15 +30,17 @@ public class cashierProfileCardController {
     private Cashier cashier;
     private ProfileDetailsListener profileDetailsListener;
     private DeleteCashierListener deleteCashierListener;
+    private EditCashierListener editCashierListener;
     @FXML
     private Pane deleteButtonProfileCard;
     @FXML
     private Pane editButtonProfileCard;
 
-    public void setData(Cashier cashier, ProfileDetailsListener profileDetailsListener, DeleteCashierListener deleteCashierListener){
+    public void setData(Cashier cashier, ProfileDetailsListener profileDetailsListener, DeleteCashierListener deleteCashierListener, EditCashierListener editCashierListener){
         this.cashier = cashier;
         this.profileDetailsListener = profileDetailsListener;
         this.deleteCashierListener = deleteCashierListener;
+        this.editCashierListener = editCashierListener;
         String imagePath = cashier.getCashierImageSource();
         File file = new File(imagePath);
         if(file.exists()){
@@ -81,7 +84,7 @@ public class cashierProfileCardController {
 
     @FXML
     private void editButtonProfileCardMouseClick(MouseEvent mouseEvent) {
-
+        editCashierListener.clickEditCashierListener(cashier);
     }
 
     @FXML

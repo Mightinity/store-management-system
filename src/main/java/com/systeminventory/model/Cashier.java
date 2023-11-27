@@ -67,6 +67,7 @@ public class Cashier {
     public void setCashierAddress(String cashierAddress) {
         this.cashierAddress = cashierAddress;
     }
+
     public String getKeyCashier() {
         return keyCashier;
     }
