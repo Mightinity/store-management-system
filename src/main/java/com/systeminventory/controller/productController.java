@@ -264,14 +264,6 @@ public class productController {
         buttonAddProduct.setStyle("-fx-background-color: #ffa132;" + "-fx-background-radius: 20;");
     }
 
-//    private static String findLastProductKey(List<Product> listProducts){
-//        if(!listProducts.isEmpty()){
-//            Product lastProduct = listProducts.get(listProducts.size() - 1);
-//            return "product" + (listProducts.size());
-//        }
-//        return "product0";
-//    }
-
     private void setLabelPropertiesTextFillWhite(Label label, String text){
         label.setText(text);
         label.setStyle("-fx-text-fill: #f6f6f6;");
@@ -280,36 +272,26 @@ public class productController {
     private void onAddProductApplyButtonClick(ActionEvent actionEvent) throws IOException {
         String jsonPath = "./src/main/java/com/systeminventory/assets/json/productList.json";
         String imageProductPath = "./src/main/java/com/systeminventory/assets/imagesProduct/";
+        setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
+        setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
+        setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
+        setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
+        setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
+        TextField[] fields = { addProductProductNameField, addProductOriginalPriceField, addProductSellingPriceField, addProductProductStockField };
+        Label[] labels = { addProductProductNameLabel, addProductOriginalPriceLabel, addProductSellingPriceLabel, addProductProductStockLabel };
         if (addProductLabel.getText().equals("Add Product")){
-            setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
-            setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
-            setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
-            setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
-            setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
             int status = 0;
-            if (addProductProductNameField.getText().isEmpty()){
-                addProductProductNameLabel.setText("Product name: (Required)");
-                addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
-            }
-            if (addProductOriginalPriceField.getText().isEmpty()){
-                addProductOriginalPriceLabel.setText("Original price: (Required)");
-                addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
-            }
-            if (addProductSellingPriceField.getText().isEmpty()){
-                addProductSellingPriceLabel.setText("Selling price: (Required)");
-                addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
+            for (int i = 0; i < fields.length;i++){
+                TextField field = fields[i];
+                Label label = labels[i];
+                if(field.getText().isEmpty()){
+                    label.setText(label.getText()+" (Required)");
+                    label.setStyle("-fx-text-fill: #ff1474;");
+                }
             }
             if (addProductProductImagePathLabel.getText().isEmpty()){
                 addProductProductImageLabel.setText("Product image: (Required)");
                 addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
-            }
-            if (addProductProductStockField.getText().isEmpty()){
-                addProductProductStockLabel.setText("Product stock: (Required)");
-                addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
                 status++;
             }
             if (status == 0){
@@ -321,7 +303,7 @@ public class productController {
                     JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
                     List<String> productKeys = new ArrayList<>(jsonObject.keySet());
-    //                Collections.sort(productKeys);
+                    //Collections.sort(productKeys);
                     int nextKeyNumber = productKeys.size()+1;
                     String newProductKey = "product"+nextKeyNumber;
 
@@ -361,38 +343,20 @@ public class productController {
                 } catch (IOException err){
                     err.printStackTrace();
                 }
-                App.loadProductScene();
             }
         } else if (addProductLabel.getText().equals("Edit Product")){
-            setLabelPropertiesTextFillWhite(addProductProductNameLabel, "Product name:");
-            setLabelPropertiesTextFillWhite(addProductOriginalPriceLabel, "Original price:");
-            setLabelPropertiesTextFillWhite(addProductSellingPriceLabel, "Selling price:");
-            setLabelPropertiesTextFillWhite(addProductProductImageLabel, "Product image:");
-            setLabelPropertiesTextFillWhite(addProductProductStockLabel, "Product stock:");
             int status = 0;
-            if (addProductProductNameField.getText().isEmpty()){
-                addProductProductNameLabel.setText("Product name: (Required)");
-                addProductProductNameLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
-            }
-            if (addProductOriginalPriceField.getText().isEmpty()){
-                addProductOriginalPriceLabel.setText("Original price: (Required)");
-                addProductOriginalPriceLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
-            }
-            if (addProductSellingPriceField.getText().isEmpty()){
-                addProductSellingPriceLabel.setText("Selling price: (Required)");
-                addProductSellingPriceLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
+            for (int i = 0; i < fields.length;i++){
+                TextField field = fields[i];
+                Label label = labels[i];
+                if(field.getText().isEmpty()){
+                    label.setText(label.getText()+" (Required)");
+                    label.setStyle("-fx-text-fill: #ff1474;");
+                }
             }
             if (addProductProductImagePathLabel.getText().isEmpty()){
                 addProductProductImageLabel.setText("Product image: (Required)");
                 addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
-                status++;
-            }
-            if (addProductProductStockField.getText().isEmpty()){
-                addProductProductStockLabel.setText("Product stock: (Required)");
-                addProductProductStockLabel.setStyle("-fx-text-fill: #ff1474;");
                 status++;
             }
             if (status == 0){
@@ -434,9 +398,10 @@ public class productController {
                 } catch (IOException err){
                     err.printStackTrace();
                 }
-                App.loadProductScene();
+
             }
         }
+        App.loadProductScene();
     }
 
     private static String generateIdProduct(Random random){
@@ -568,20 +533,17 @@ public class productController {
         try (InputStream inputStream = new FileInputStream(jsonPath)) {
             InputStreamReader reader = new InputStreamReader(inputStream);
             JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
-
             List<String> productKeys = new ArrayList<>(jsonObject.keySet());
             // Collections.sort(productKeys); // Opsional: sort jika diperlukan
 
             for (String productName : productKeys) {
                 JsonObject productData = jsonObject.getAsJsonObject(productName);
                 String searchText = productData.get("Title").getAsString();
-
                 if (searchTerm.isEmpty() || searchText.toLowerCase().contains(searchTerm.toLowerCase())){
                     Product product = new Product();
                     int sellingPrice = productData.get("SellingPrice").getAsInt(); // Mengambil nilai SellingPrice sebagai integer
-                    NumberFormat formatNumber = NumberFormat.getNumberInstance(); // Format angka tanpa simbol mata uang
+                    NumberFormat formatNumber = NumberFormat.getNumberInstance(); // Format angka
                     String formattedSellingPrice = formatNumber.format(sellingPrice);
-
                     product.setKeyProduct(productName); // productname == object keyproduct on json
                     product.setProductName(productData.get("Title").getAsString());
                     product.setImageSource(productData.get("Image").getAsString());
@@ -589,17 +551,14 @@ public class productController {
                     product.setProductOriginalPrice(productData.get("OriginalPrice").getAsString());
                     product.setProductStock(productData.get("Stock").getAsString());
                     product.setIdProduct(productData.get("idProduct").getAsString());
-
                     listProducts.add(product);
                 }
-
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return listProducts;
     }
-
 
     @FXML
     public void initialize() throws IOException {
@@ -632,7 +591,7 @@ public class productController {
             try {
                 handleRealTimeSearch(newValue);
             } catch (IOException e) {
-                e.printStackTrace(); // Handle the exception appropriately
+                e.printStackTrace();
             }
         });
     }
