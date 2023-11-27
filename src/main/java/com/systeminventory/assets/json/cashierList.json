@@ -3,8 +3,17 @@
     "Name": "Bimo yudistira ariel",
     "Email": "yudistira.bimo1312@gmail.com",
     "Phone": "082170239463",
-    "DateOfBirth": "082170239463",
-    "Address": "jl jl yuk, hayukk",
+    "DateOfBirth": "hahahaha",
+    "Address": "hahahahi",
+    "Image": "./src/main/java/com/systeminventory/assets/imagesCashier/22.png",
+    "Password": "e10adc3949ba59abbe56e057f20f883e"
+  },
+  "cashier2": {
+    "Name": "Olivia",
+    "Email": "rodrigo",
+    "Phone": "te",
+    "DateOfBirth": "123 1",
+    "Address": "123123",
     "Image": "./src/main/java/com/systeminventory/assets/imagesCashier/22.png",
     "Password": "e10adc3949ba59abbe56e057f20f883e"
   }

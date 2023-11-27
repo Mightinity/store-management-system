@@ -51,7 +51,7 @@
                   <Font name="Righteous" size="18.0" />
                </font>
             </Button>
-            <TextField fx:id="searchTermProfile" layoutX="68.0" layoutY="129.0" onKeyPressed="#searchTermProfileKeyPress" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
+            <TextField fx:id="searchTermProfile" layoutX="68.0" layoutY="129.0" prefHeight="39.0" prefWidth="249.0" promptText="Search" style="-fx-background-radius: 0 20 20 0; -fx-background-color: #151d26; -fx-border-color: #fe8a00; -fx-border-radius: 0 20 20 0; -fx-text-fill: #f6f6f6;">
                <font>
                   <Font name="Righteous" size="14.0" />
                </font>
