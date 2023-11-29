@@ -727,45 +727,6 @@ public class productController {
         }
     }
 
-//
-//  OLD METHOD SEARCHING (NOT REALTIME SEARCHING)
-//
-//    private void handleEnterKey(KeyEvent keyEvent) throws IOException {
-//        productCardContainer.getChildren().clear();
-//
-//        deleteProductListener = this::openConfirmDeleteProductDialog;
-//        editProductListener = this::openEditProductPopup;
-//        detailsProductListener = this::openDetailsProductPopup;
-//
-//        int column = 0;
-//        int row = 1;
-//        List<Product> listProducts;
-//
-//        if (keyEvent.getCode() == KeyCode.ENTER) {
-//            listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()));
-//        } else if (keyEvent.getCode() == KeyCode.BACK_SPACE && searchProductNameField.getText().isEmpty()) {
-//            listProducts = new ArrayList<>(readProductsFromJson(""));
-//        } else {
-//            listProducts = new ArrayList<>(readProductsFromJson(searchProductNameField.getText()keyEvent.getCharacter()));
-//        }
-//
-//        for (Product product : listProducts) {
-//            FXMLLoader fxmlLoader = new FXMLLoader();
-//            fxmlLoader.setLocation(App.class.getResource("productCard.fxml"));
-//            VBox cardProduct = fxmlLoader.load();
-//            productCardController cardController = fxmlLoader.getController();
-//            cardController.setData(product, deleteProductListener, editProductListener, detailsProductListener);
-//
-//            if (column == 5) {
-//                column = 0;
-//                ++row;
-//            }
-//
-//            productCardContainer.add(cardProduct, column++, row);
-//            GridPane.setMargin(cardProduct, new Insets(15));
-//        }
-//    }
-
     @FXML
     private void searchTermKeyPress(KeyEvent keyEvent) throws IOException {
         String searchText = searchProductNameField.getText();
@@ -797,7 +758,7 @@ public class productController {
     }
 
     @FXML
-    private void downloadBarcodeDetailsProductMouseClick(MouseEvent mouseEvent) throws InterruptedException {
+    private void downloadBarcodeDetailsProductMouseClick(MouseEvent mouseEvent) {
         String imageUrl = "https://barcodeapi.org/api/code128/"+idProductDetailsProduct.getText(); // change auto -> code128
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Save Barcode Image");

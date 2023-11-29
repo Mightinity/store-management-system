@@ -3,7 +3,6 @@ package com.systeminventory.features;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.AnchorPane;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +10,7 @@ import java.util.regex.Pattern;
 
 public class loginFeatures {
 
-    public static boolean buttonLoginClick(TextField formEmailField, TextField formPasswordField, Label labelEmailWarning, Label labelPasswordWarning, TextField formPasswordShowField, ImageView hideEye, ImageView showEye) {
+    public static boolean validFillForm(TextField formEmailField, TextField formPasswordField, Label labelEmailWarning, Label labelPasswordWarning, TextField formPasswordShowField, ImageView hideEye, ImageView showEye) {
 
         boolean statusLogin = false;
         String email = formEmailField.getText().trim();

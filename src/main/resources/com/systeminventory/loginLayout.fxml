@@ -17,12 +17,12 @@
          <children>
             <Pane layoutX="774.72" layoutY="62.59" prefHeight="601.55" prefWidth="448.83" style="-fx-background-color: #2b3848; -fx-background-radius: 35;">
                <children>
-                  <Label fx:id="labelEmailWarning" layoutX="268.0" layoutY="275.0" prefHeight="19.0" prefWidth="147.0" textAlignment="RIGHT" textFill="RED">
+                  <Label fx:id="labelEmailWarning" alignment="CENTER_RIGHT" layoutX="90.0" layoutY="275.0" prefHeight="19.0" prefWidth="325.0" textAlignment="RIGHT" textFill="RED">
                      <font>
                         <Font name="Righteous" size="15.0" />
                      </font>
                   </Label>
-                  <Label fx:id="labelPasswordWarning" layoutX="243.0" layoutY="375.0" prefHeight="19.0" prefWidth="172.0" textAlignment="RIGHT" textFill="RED">
+                  <Label fx:id="labelPasswordWarning" alignment="CENTER_RIGHT" layoutX="141.0" layoutY="375.0" prefHeight="19.0" prefWidth="274.0" textAlignment="RIGHT" textFill="RED">
                      <font>
                         <Font name="Righteous" size="15.0" />
                      </font>
