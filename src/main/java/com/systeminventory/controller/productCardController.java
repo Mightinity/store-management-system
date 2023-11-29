@@ -54,7 +54,6 @@ public class productCardController {
         productCardPrice.setText(product.getProductSellingPrice());
         productCardStock.setText(product.getProductStock());
         keyProduct.setText(product.getKeyProduct());
-
     }
 
     @FXML

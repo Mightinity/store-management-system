@@ -70,4 +70,12 @@ public class App extends Application {
 
     }
 
+    public static void loadCashierDashboardScene() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("employeeProductLayout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        primaryStage.setTitle("Dashboard Employee - Store Inventory System");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
 }

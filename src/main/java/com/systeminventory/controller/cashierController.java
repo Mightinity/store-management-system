@@ -622,32 +622,4 @@ public class cashierController {
             GridPane.setMargin(cardProfile, new Insets(15));
         }
     }
-
-
-// OLD METHOD SEARCHING ( NOT REALTIME)
-
-//    private void handleEnterKeyProfileSearch(KeyEvent keyEvent) throws IOException{
-//        if(keyEvent.getCode() == KeyCode.ENTER){
-//            List<Cashier> listCashier = new ArrayList<>(readProfileFromJson(searchTermProfile.getText()));
-//            profileCardContainer.getChildren().clear();
-//
-//            ProfileDetailsListener profileDetailsListener = this::setChosenProfile;
-//            DeleteCashierListener deleteCashierListener = this::openConfirmDeleteProfileDialog;
-//            EditCashierListener editCashierListener = this::openEditProfilePopup;;
-//
-//            int column = 0;
-//            int row = 1;
-//            for(Cashier cashier : listCashier){
-//                FXMLLoader fxmlLoader = new FXMLLoader();
-//                fxmlLoader.setLocation(App.class.getResource("cashierProfileCard.fxml"));
-//                VBox cardProfile = fxmlLoader.load();
-//                cashierProfileCardController cardController = fxmlLoader.getController();
-//                cardController.setData(cashier, profileDetailsListener, deleteCashierListener, editCashierListener);
-//
-//                profileCardContainer.add(cardProfile,column,row++);
-//                GridPane.setMargin(cardProfile, new Insets(15));
-//
-//            }
-//        }
-//    }
 }
