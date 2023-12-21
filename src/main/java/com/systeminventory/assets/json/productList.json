@@ -6,13 +6,5 @@
     "SellingPrice": 500000,
     "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
     "Stock": 100
-  },
-  "product3": {
-    "idProduct": "FQYS33D77ANJ",
-    "Title": "Baju ahah",
-    "OriginalPrice": 50000,
-    "SellingPrice": 1000000,
-    "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/SIMS_BARCODE_IVL1EGU8FJO1.png",
-    "Stock": 50
   }
 }

@@ -51,7 +51,6 @@ public class loginController {
                 String email = formEmailField.getText().trim();
                 String password = formPasswordField.getText().trim();
 
-//                App.loadCashierDashboardScene();
                 if (email.equals("admin@admin.com") && password.equals("admin")){
                     App.loadDashboardScene();
                 } else if (isCashierCredentialsValid(email, password)) {
