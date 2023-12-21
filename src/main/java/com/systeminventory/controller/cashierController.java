@@ -343,6 +343,7 @@ public class cashierController {
                 } catch (IOException err){
                     err.printStackTrace();
                 }
+                App.loadCashierScene();
             }
         } else if (addProfileLabel.getText().equals("Edit Profile")){ // EDIT PROFILE
             int status = 0;
@@ -399,8 +400,8 @@ public class cashierController {
                     err.printStackTrace();
                 }
             }
+            App.loadCashierScene();
         }
-        App.loadCashierScene();
     }
 
     @FXML

@@ -21,7 +21,6 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
@@ -287,6 +286,7 @@ public class productController {
                 if(field.getText().isEmpty()){
                     label.setText(label.getText()+" (Required)");
                     label.setStyle("-fx-text-fill: #ff1474;");
+                    status++;
                 }
             }
             if (addProductProductImagePathLabel.getText().isEmpty()){
@@ -343,44 +343,46 @@ public class productController {
                 } catch (IOException err){
                     err.printStackTrace();
                 }
+                App.loadProductScene();
             }
-        } else if (addProductLabel.getText().equals("Edit Product")){
+        } else if (addProductLabel.getText().equals("Edit Product")) {
             int status = 0;
-            for (int i = 0; i < fields.length;i++){
+            for (int i = 0; i < fields.length; i++) {
                 TextField field = fields[i];
                 Label label = labels[i];
-                if(field.getText().isEmpty()){
-                    label.setText(label.getText()+" (Required)");
+                if (field.getText().isEmpty()) {
+                    label.setText(label.getText() + " (Required)");
                     label.setStyle("-fx-text-fill: #ff1474;");
+                    status++;
                 }
             }
-            if (addProductProductImagePathLabel.getText().isEmpty()){
+            if (addProductProductImagePathLabel.getText().isEmpty()) {
                 addProductProductImageLabel.setText("Product image: (Required)");
                 addProductProductImageLabel.setStyle("-fx-text-fill: #ff1474;");
                 status++;
             }
-            if (status == 0){
+            if (status == 0) {
                 Gson gson = new GsonBuilder().setPrettyPrinting().create();
 
-                try (InputStream inputStream = new FileInputStream(jsonPath)){
+                try (InputStream inputStream = new FileInputStream(jsonPath)) {
                     InputStreamReader reader = new InputStreamReader(inputStream);
                     JsonObject jsonObject = gson.fromJson(reader, JsonObject.class);
 
                     JsonObject productKey = jsonObject.getAsJsonObject(keyProductOnPopUp.getText());
 
-                    if (keyProductOnPopUp.getText() != null){
+                    if (keyProductOnPopUp.getText() != null) {
                         int originalPrice = Integer.parseInt(addProductOriginalPriceField.getText());
                         int sellingPrice = Integer.parseInt(addProductSellingPriceField.getText());
                         int stock = Integer.parseInt(addProductProductStockField.getText());
 
                         String imageFileName = addProductProductImagePathLabel.getText();
-                        if (!(imageProductPath+imageFileName).equals(productKey.get("Image").getAsString())){
+                        if (!(imageProductPath + imageFileName).equals(productKey.get("Image").getAsString())) {
                             Path newSourceImagePath = Paths.get(addProductProductImageGetFullPathLabel.getText());
                             Path targetImagePath = Paths.get(imageProductPath, imageFileName);
 
                             try {
                                 Files.copy(newSourceImagePath, targetImagePath, StandardCopyOption.REPLACE_EXISTING);
-                            } catch (IOException err){
+                            } catch (IOException err) {
                                 err.printStackTrace();
                             }
                         }
@@ -388,20 +390,19 @@ public class productController {
                         productKey.addProperty("Title", addProductProductNameField.getText());
                         productKey.addProperty("OriginalPrice", originalPrice);
                         productKey.addProperty("SellingPrice", sellingPrice);
-                        productKey.addProperty("Image", imageProductPath+imageFileName);
+                        productKey.addProperty("Image", imageProductPath + imageFileName);
                         productKey.addProperty("Stock", stock);
 
-                        try (Writer writer = new FileWriter(jsonPath)){
+                        try (Writer writer = new FileWriter(jsonPath)) {
                             gson.toJson(jsonObject, writer);
                         }
                     }
-                } catch (IOException err){
+                } catch (IOException err) {
                     err.printStackTrace();
                 }
-
             }
+            App.loadProductScene();
         }
-        App.loadProductScene();
     }
 
     private static String generateIdProduct(Random random){
