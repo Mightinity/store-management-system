@@ -109,8 +109,18 @@ public class loginController {
         labelEmailWarning.setText("");
         labelPasswordWarning.setText("");
         boolean statusLogin = loginFeatures.validFillForm(formEmailField, formPasswordField, labelEmailWarning, labelPasswordWarning, formPasswordShowField, hideEye, showEye);
-        if (statusLogin){
-            App.loadDashboardScene();
+        if (statusLogin) {
+
+            String email = formEmailField.getText().trim();
+            String password = formPasswordField.getText().trim();
+
+            if (email.equals("admin@admin.com") && password.equals("admin")){
+                App.loadDashboardScene();
+            } else if (isCashierCredentialsValid(email, password)) {
+                App.loadEmployeeDashboardScene();
+            } else {
+                labelEmailWarning.setText("Invalid email or password");
+            }
         }
     }
 
