@@ -1,13 +1,4 @@
 {
-  "cashier1": {
-    "Name": "Bimo yudistira ariel",
-    "Email": "yudistira.bimo1312@gmail.com",
-    "Phone": "082170239463",
-    "DateOfBirth": "hahahaha",
-    "Address": "hahahahi",
-    "Image": "./src/main/java/com/systeminventory/assets/imagesCashier/22.png",
-    "Password": "f333364cea640949cd956e4ff69a5110"
-  },
   "cashier2": {
     "Name": "Olivia",
     "Email": "rodrigo@gmail.com",

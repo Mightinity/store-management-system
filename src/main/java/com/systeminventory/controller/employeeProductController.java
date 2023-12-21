@@ -107,7 +107,8 @@ public class employeeProductController {
     }
 
     @FXML
-    private void onButtonCashierClick(ActionEvent actionEvent) {
+    private void onButtonCashierClick(ActionEvent actionEvent) throws IOException {
+        App.loadEmployeeCashierScene();
     }
 
     @FXML

@@ -7,7 +7,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.io.PrintStream;
 
 public class App extends Application {
 
@@ -69,9 +68,16 @@ public class App extends Application {
         primaryStage.show();
 
     }
-
-    public static void loadCashierDashboardScene() throws IOException {
+    public static void loadEmployeeDashboardScene() throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("employeeProductLayout.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        primaryStage.setTitle("Dashboard Employee - Store Inventory System");
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    public static void loadEmployeeCashierScene() throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(App.class.getResource("employeeCashierLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         primaryStage.setTitle("Dashboard Employee - Store Inventory System");
         primaryStage.setScene(scene);

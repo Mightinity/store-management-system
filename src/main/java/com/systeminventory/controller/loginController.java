@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import com.systeminventory.features.loginFeatures;
 import com.systeminventory.App;
-import com.systeminventory.model.Employee;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -52,11 +51,10 @@ public class loginController {
                 String email = formEmailField.getText().trim();
                 String password = formPasswordField.getText().trim();
 
-//                App.loadCashierDashboardScene();
                 if (email.equals("admin@admin.com") && password.equals("admin")){
                     App.loadDashboardScene();
                 } else if (isCashierCredentialsValid(email, password)) {
-                    App.loadCashierDashboardScene();
+                    App.loadEmployeeDashboardScene();
                 } else {
                     labelEmailWarning.setText("Invalid email or password");
                 }
