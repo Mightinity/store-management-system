@@ -1,7 +1,7 @@
 {
   "product2": {
     "idProduct": "OVWH061FMZQL",
-    "Title": "Sepatu merah",
+    "Title": "Sepatu Merah",
     "OriginalPrice": 20000,
     "SellingPrice": 500000,
     "Image": "./src/main/java/com/systeminventory/assets/imagesProduct/mantap2.png",
